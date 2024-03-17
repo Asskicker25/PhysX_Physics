@@ -40,9 +40,7 @@ void PhysX_Object::UpdatePhysicsState(RigidBody::ePhysicsState physicsState)
 
 	PxTransform pxTranform(GLMVec3(transform.position), GLMQuat(transform.quaternionRotation));
 
-	PxSphereGeometry sphere;
-	sphere.radius = 1;
-	PxShape* shape = PhysX_Engine::gPhysics->createShape(sphere, *PhysX_Engine::gDefaultMaterial);
+	PxShape* shape = PhysX_Engine::gPhysics->createShape(*mColliderShape->mGeometry, *PhysX_Engine::gDefaultMaterial);
 
 	if (physicsState == RigidBody::STATIC)
 	{
@@ -57,7 +55,6 @@ void PhysX_Object::UpdatePhysicsState(RigidBody::ePhysicsState physicsState)
 		mRigidActor = PhysX_Engine::gPhysics->createRigidDynamic(pxTranform);
 		UpdateKinematic(true);
 	}
-
 	mRigidActor->attachShape(*shape);
 	shape->release();
 }
@@ -91,4 +88,6 @@ void PhysX_Object::UpdateColliderShape(BaseColliderShape::eColliderShape collide
 		mColliderShape = new BoxCollider();
 		break;
 	}
+
+	mColliderShape->InitializeGeometry(this);
 }

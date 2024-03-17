@@ -25,6 +25,7 @@
     <ClInclude Include="src\PhysX_Engine.h" />
     <ClInclude Include="src\PhysX_Object.h" />
     <ClInclude Include="src\PhysicsMaterial.h" />
+    <ClInclude Include="src\ShapeUtils.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\GLMToPhysX.cpp" />
@@ -35,6 +36,7 @@
     <ClCompile Include="src\PhysX_Object.cpp" />
     <ClCompile Include="src\Shapes\PhysX_Object_ColliderShape.h" />
     <ClCompile Include="src\PhysX_Object_RigidBody.h" />
+    <ClCompile Include="src\ShapeUtils.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>

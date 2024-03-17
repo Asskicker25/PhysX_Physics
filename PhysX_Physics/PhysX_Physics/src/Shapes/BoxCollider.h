@@ -4,5 +4,10 @@
 class BoxCollider : public BaseColliderShape
 {
 public:
+
+
+	// Inherited via BaseColliderShape
+	void InitializeGeometry(Model* model) override;
+
 };
 
