@@ -19,10 +19,22 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\GLMToPhysX.h" />
+    <ClInclude Include="src\Shapes\BoxCollider.h" />
+    <ClInclude Include="src\Shapes\SphereCollider.h" />
+    <ClInclude Include="src\PhysX_Engine.h" />
     <ClInclude Include="src\PhysX_Object.h" />
+    <ClInclude Include="src\PhysicsMaterial.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\GLMToPhysX.cpp" />
+    <ClCompile Include="src\Shapes\BoxCollider.cpp" />
+    <ClCompile Include="src\Shapes\PhysX_Object_ColliderShape.cpp" />
+    <ClCompile Include="src\Shapes\SphereCollider.cpp" />
+    <ClCompile Include="src\PhysX_Engine.cpp" />
     <ClCompile Include="src\PhysX_Object.cpp" />
+    <ClCompile Include="src\Shapes\PhysX_Object_ColliderShape.h" />
+    <ClCompile Include="src\PhysX_Object_RigidBody.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
@@ -77,10 +89,12 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(SolutionDir)Dependencies/include;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)Dependencies/include/PhysX;$(ProjectDir)Dependencies/include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)Dependencies/lib/PhysX/$(Configuration);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(SolutionDir)Dependencies/include;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)Dependencies/include/PhysX;$(ProjectDir)Dependencies/include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)Dependencies/lib/PhysX/$(Configuration);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -130,6 +144,9 @@
       </SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <Lib>
+      <AdditionalDependencies>LowLevelAABB_static_64.lib;LowLevelDynamics_static_64.lib;LowLevel_static_64.lib;PhysXCharacterKinematic_static_64.lib;PhysXCommon_64.lib;PhysXCooking_64.lib;PhysXExtensions_static_64.lib;PhysXFoundation_64.lib;PhysXPvdSDK_static_64.lib;PhysXTask_static_64.lib;PhysXVehicle2_static_64.lib;PhysXVehicle_static_64.lib;PhysX_64.lib;PVDRuntime_64.lib;SceneQuery_static_64.lib;SimulationController_static_64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -149,6 +166,9 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <Lib>
+      <AdditionalDependencies>LowLevelAABB_static_64.lib;LowLevelDynamics_static_64.lib;LowLevel_static_64.lib;PhysXCharacterKinematic_static_64.lib;PhysXCommon_64.lib;PhysXCooking_64.lib;PhysXExtensions_static_64.lib;PhysXFoundation_64.lib;PhysXPvdSDK_static_64.lib;PhysXTask_static_64.lib;PhysXVehicle2_static_64.lib;PhysXVehicle_static_64.lib;PhysX_64.lib;PVDRuntime_64.lib;SceneQuery_static_64.lib;SimulationController_static_64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

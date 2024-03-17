@@ -8,6 +8,8 @@ using namespace Scene;
 
 void PhysicsApplication::SetUp()
 {
+	PhysX_Engine::GetInstance().Initialize();
+
 	viewportCamera->InitializeCamera(PERSPECTIVE, windowWidth, windowHeight, 0.1f, 100.0f, 45.0f);
 	viewportCamera->transform.SetPosition(glm::vec3(0, 0, 10));
 	viewportCamera->applyPostProcessing = true;
@@ -22,6 +24,7 @@ void PhysicsApplication::SetUp()
 
 void PhysicsApplication::Update()
 {
+	PhysX_Engine::GetInstance().Update();
 }
 
 void PhysicsApplication::Render()
@@ -30,6 +33,7 @@ void PhysicsApplication::Render()
 
 void PhysicsApplication::Shutdown()
 {
+	PhysX_Engine::GetInstance().Cleanup();
 }
 
 void PhysicsApplication::OnPlayStateChanged(bool state)

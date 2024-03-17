@@ -2,6 +2,7 @@
 
 
 #include <Graphics/ApplicationWindow.h>
+#include <PhysX_Engine.h>
 
 class PhysicsApplication : public ApplicationWindow
 {

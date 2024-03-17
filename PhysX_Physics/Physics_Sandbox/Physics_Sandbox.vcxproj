@@ -71,11 +71,11 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(SolutionDir)PhysX_Physics\src;$(ProjectDir)Dependencies/include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)PhysX_Physics\src;$(ProjectDir)Dependencies/include/PhysX;$(ProjectDir)Dependencies/include;$(IncludePath)</IncludePath>
     <LibraryPath>$(OutDir);$(ProjectDir)Dependencies\lib\glfw\$(Configuration)_x64;$(ProjectDir)Dependencies\lib\Graphics\$(Configuration);$(ProjectDir)Dependencies\lib\Debug_assimp;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(SolutionDir)PhysX_Physics\src;$(ProjectDir)Dependencies/include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)PhysX_Physics\src;$(ProjectDir)Dependencies/include/PhysX;$(ProjectDir)Dependencies/include;$(IncludePath)</IncludePath>
     <LibraryPath>$(OutDir);$(ProjectDir)Dependencies\lib\glfw\$(Configuration)_x64;$(ProjectDir)Dependencies\lib\Graphics\$(Configuration);$(ProjectDir)Dependencies\lib\Debug_assimp;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
