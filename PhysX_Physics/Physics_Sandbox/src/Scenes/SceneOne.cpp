@@ -1,6 +1,8 @@
 #include "SceneOne.h"
 #include "../AppSettings.h"
 
+#include <PhysX_Object.h>
+
 void SceneOne::Start()
 {
 	GameCamera* mainCamera = new GameCamera();
@@ -16,6 +18,9 @@ void SceneOne::Start()
 	dirLight->transform.SetPosition(glm::vec3(0, 0, 3));
 	dirLight->InitializeLight(Directional);
 	
+	PhysX_Object* sphere = new PhysX_Object();
+	sphere->transform.SetPosition(glm::vec3(0, 10, 0));
+	sphere->Initialize(RigidBody::DYNAMIC, BaseColliderShape::SPHERE);
 }
 
 void SceneOne::Update()

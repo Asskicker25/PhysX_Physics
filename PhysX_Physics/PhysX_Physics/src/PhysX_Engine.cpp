@@ -3,6 +3,15 @@
 
 using namespace physx;
 
+PxDefaultAllocator		PhysX_Engine::gAllocator;
+PxDefaultErrorCallback	PhysX_Engine::gErrorCallback;
+PxFoundation*			PhysX_Engine::gFoundation		= NULL;
+PxPvd*					PhysX_Engine::gPvd				= NULL;
+PxPhysics*				PhysX_Engine::gPhysics			= NULL;
+PxDefaultCpuDispatcher* PhysX_Engine::gDispatcher		= NULL;
+PxScene*				PhysX_Engine::gScene			= NULL;
+PxMaterial*				PhysX_Engine::gDefaultMaterial	= NULL;
+
 
 PhysX_Engine& PhysX_Engine::GetInstance()
 {

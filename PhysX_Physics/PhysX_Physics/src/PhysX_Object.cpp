@@ -12,6 +12,7 @@ void PhysX_Object::Initialize(RigidBody::ePhysicsState physicsState, BaseCollide
 {
 	UpdateColliderShape(colliderShape);
 	UpdatePhysicsState(physicsState);
+	PhysX_Engine::gScene->addActor(*mRigidActor);
 }
 
 void PhysX_Object::UpdatePhysicsState(RigidBody::ePhysicsState physicsState)
@@ -38,20 +39,26 @@ void PhysX_Object::UpdatePhysicsState(RigidBody::ePhysicsState physicsState)
 
 	PxTransform pxTranform(GLMVec3(transform.position), GLMQuat(transform.quaternionRotation));
 
+	PxSphereGeometry sphere;
+	sphere.radius = 1;
+	PxShape* shape = PhysX_Engine::gPhysics->createShape(sphere, *PhysX_Engine::gDefaultMaterial);
+
 	if (physicsState == RigidBody::STATIC)
 	{
-		mRigidActor = gPhysics->createRigidStatic(pxTranform);
+		mRigidActor = PhysX_Engine::gPhysics->createRigidStatic(pxTranform);
 	}
 	else if (physicsState == RigidBody::DYNAMIC)
 	{
-		mRigidActor = gPhysics->createRigidDynamic(pxTranform);
+		mRigidActor = PhysX_Engine::gPhysics->createRigidDynamic(pxTranform);
 	}
 	else if (physicsState == RigidBody::KINEMATIC)
 	{
-		mRigidActor = gPhysics->createRigidDynamic(pxTranform);
+		mRigidActor = PhysX_Engine::gPhysics->createRigidDynamic(pxTranform);
 		UpdateKinematic(true);
 	}
 
+	mRigidActor->attachShape(*shape);
+	shape->release();
 }
 
 void PhysX_Object::UpdateKinematic(bool isKinematic)
@@ -73,7 +80,7 @@ void PhysX_Object::UpdateColliderShape(BaseColliderShape::eColliderShape collide
 		}
 	}
 	
-	switch (mColliderShape->mShape)
+	switch (colliderShape)
 	{
 	case BaseColliderShape::SPHERE:
 		mColliderShape = new SphereCollider();

@@ -10,15 +10,6 @@
 
 using namespace physx;
 
-static PxDefaultAllocator		gAllocator;
-static PxDefaultErrorCallback	gErrorCallback;
-static PxFoundation*			gFoundation			= NULL;
-static PxPvd*					gPvd				= NULL;
-static PxPhysics*				gPhysics			= NULL;
-static PxDefaultCpuDispatcher*	gDispatcher			= NULL;
-static PxScene*					gScene				= NULL;
-static PxMaterial*				gDefaultMaterial	= NULL;
-	
 class PhysX_Engine
 {
 public:
@@ -38,6 +29,15 @@ public:
 	void Initialize();
 	void Update();
 	void Cleanup();
+
+	static PxDefaultAllocator		gAllocator;
+	static PxDefaultErrorCallback	gErrorCallback;
+	static PxFoundation*			gFoundation;
+	static PxPvd*					gPvd;
+	static PxPhysics*				gPhysics;
+	static PxDefaultCpuDispatcher*	gDispatcher;
+	static PxScene*					gScene;
+	static PxMaterial*				gDefaultMaterial;
 
 	PhysicsProperties mPhysicsProperties;
 };
