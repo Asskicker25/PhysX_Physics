@@ -19,6 +19,7 @@ void SceneOne::Start()
 	dirLight->InitializeLight(Directional);
 	
 	PhysX_Object* sphere = new PhysX_Object();
+	sphere->LoadModel("res/Models/DefaultSphere.fbx");
 	sphere->transform.SetPosition(glm::vec3(0, 10, 0));
 	sphere->Initialize(RigidBody::DYNAMIC, BaseColliderShape::SPHERE);
 }

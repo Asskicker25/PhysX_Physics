@@ -1,6 +1,7 @@
 #include "PhysicsApplication.h"
 
 #include <Graphics/Scene/SceneManager.h>
+#include <Graphics/Panels/EditorLayout.h>
 
 #include "Scenes/SceneOne.h"
 
@@ -11,8 +12,11 @@ void PhysicsApplication::SetUp()
 	PhysX_Engine::GetInstance().Initialize();
 
 	viewportCamera->InitializeCamera(PERSPECTIVE, windowWidth, windowHeight, 0.1f, 100.0f, 45.0f);
-	viewportCamera->transform.SetPosition(glm::vec3(0, 0, 10));
+	viewportCamera->transform.SetPosition(glm::vec3(0, 0, 40));
 	viewportCamera->applyPostProcessing = true;
+
+	EditorLayout::GetInstance().SetMaximizeState(false);
+
 
 	BaseScene* sceneOne = new SceneOne();
 
@@ -24,7 +28,10 @@ void PhysicsApplication::SetUp()
 
 void PhysicsApplication::Update()
 {
-	PhysX_Engine::GetInstance().Update();
+	if (applicationPlay)
+	{
+		PhysX_Engine::GetInstance().Update();
+	}
 }
 
 void PhysicsApplication::Render()

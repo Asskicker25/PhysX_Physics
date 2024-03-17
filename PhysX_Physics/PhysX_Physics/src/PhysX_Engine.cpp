@@ -1,16 +1,18 @@
 #include "PhysX_Engine.h"
 #include "GLMToPhysX.h"
 
+#include "PhysX_Object.h"
+
 using namespace physx;
 
 PxDefaultAllocator		PhysX_Engine::gAllocator;
 PxDefaultErrorCallback	PhysX_Engine::gErrorCallback;
-PxFoundation*			PhysX_Engine::gFoundation		= NULL;
-PxPvd*					PhysX_Engine::gPvd				= NULL;
-PxPhysics*				PhysX_Engine::gPhysics			= NULL;
-PxDefaultCpuDispatcher* PhysX_Engine::gDispatcher		= NULL;
-PxScene*				PhysX_Engine::gScene			= NULL;
-PxMaterial*				PhysX_Engine::gDefaultMaterial	= NULL;
+PxFoundation* PhysX_Engine::gFoundation = NULL;
+PxPvd* PhysX_Engine::gPvd = NULL;
+PxPhysics* PhysX_Engine::gPhysics = NULL;
+PxDefaultCpuDispatcher* PhysX_Engine::gDispatcher = NULL;
+PxScene* PhysX_Engine::gScene = NULL;
+PxMaterial* PhysX_Engine::gDefaultMaterial = NULL;
 
 
 PhysX_Engine& PhysX_Engine::GetInstance()
@@ -79,12 +81,17 @@ void PhysX_Engine::Initialize()
 
 #pragma endregion
 
+
+	PxRigidStatic* groundPlane = PxCreatePlane(*gPhysics, PxPlane(0, 1, 0, 0), *gDefaultMaterial);
+	gScene->addActor(*groundPlane);
 }
 
 void PhysX_Engine::Update()
 {
 	gScene->simulate(mPhysicsProperties.mFixedStepTime);
 	gScene->fetchResults(true);
+
+	UpdateRender();
 }
 
 void PhysX_Engine::Cleanup()
@@ -102,5 +109,51 @@ void PhysX_Engine::Cleanup()
 
 
 	std::cout << "Physics Cleanup" << std::endl;
+}
+
+void PhysX_Engine::UpdateRender()
+{
+	PxU32 nbActors = gScene->getNbActors(PxActorTypeFlag::eRIGID_DYNAMIC | PxActorTypeFlag::eRIGID_STATIC);
+
+	if (!nbActors) return;
+
+	std::vector<PxRigidActor*> actors(nbActors);
+	gScene->getActors(PxActorTypeFlag::eRIGID_DYNAMIC | PxActorTypeFlag::eRIGID_STATIC, reinterpret_cast<PxActor**>(&actors[0]), nbActors);
+
+	PxShape* shapes[MAX_NUM_ACTOR_SHAPES];
+
+	glm::vec3 actorPos;
+	glm::quat actorRot;
+
+	for (PxRigidActor* actor : actors)
+	{
+		if (actor->userData == NULL) continue;
+
+		actorPos = glm::vec3(0);
+		actorRot = glm::quat(0,0,0,0);
+
+		const PxU32 nbShapes = actor->getNbShapes();
+		PX_ASSERT(nbShapes <= MAX_NUM_ACTOR_SHAPES);
+
+		actor->getShapes(shapes, nbShapes);
+
+		for (PxU32 index = 0; index < nbShapes; index++)
+		{
+			const PxMat44 shapePose(PxShapeExt::getGlobalPose(*shapes[index], *actor));
+			const PxGeometry& geom = shapes[index]->getGeometry();
+
+			actorPos += PxVec3ToGLM(shapePose.getPosition());
+			actorRot += PxQuatToGLM(PxQuat(PxMat3FromMat4(shapePose)));
+		}
+
+		actorPos /= nbShapes;
+		actorRot /= nbShapes;
+
+
+		PhysX_Object* phyObj = (PhysX_Object*)actor->userData;
+		phyObj->transform.SetPosition(actorPos);
+		phyObj->transform.SetQuatRotation(actorRot);
+	}
+
 }
 

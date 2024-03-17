@@ -13,6 +13,7 @@ void PhysX_Object::Initialize(RigidBody::ePhysicsState physicsState, BaseCollide
 	UpdateColliderShape(colliderShape);
 	UpdatePhysicsState(physicsState);
 	PhysX_Engine::gScene->addActor(*mRigidActor);
+	mRigidActor->userData = this;
 }
 
 void PhysX_Object::UpdatePhysicsState(RigidBody::ePhysicsState physicsState)

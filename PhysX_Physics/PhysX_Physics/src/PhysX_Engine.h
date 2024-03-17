@@ -1,12 +1,14 @@
 #pragma once
 #include <iostream>
+#include <vector>
 
 #include <PxPhysicsAPI.h>
 #include <glm/glm.hpp>
 
 #include "PhysicsMaterial.h"
 
-#define PVD_HOST "127.0.0.1"	
+#define PVD_HOST				"127.0.0.1"	
+#define MAX_NUM_ACTOR_SHAPES	128
 
 using namespace physx;
 
@@ -40,5 +42,9 @@ public:
 	static PxMaterial*				gDefaultMaterial;
 
 	PhysicsProperties mPhysicsProperties;
+
+private:
+
+	void UpdateRender();
 };
 
