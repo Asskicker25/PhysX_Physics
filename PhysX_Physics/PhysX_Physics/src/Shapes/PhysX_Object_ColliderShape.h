@@ -1,6 +1,7 @@
 #pragma once
 #include <PxPhysicsAPI.h>
 #include <Graphics/Mesh/Model.h>
+#include <Graphics/Renderer.h>
 
 using namespace physx;
 
@@ -24,12 +25,15 @@ public:
 
 	PxGeometry* mGeometry = nullptr;
 
-	virtual void InitializeGeometry(Model* model);
-
 	SphereCollider* AsSphere();
 	BoxCollider* AsBox();
+
+	virtual void InitializeGeometry(Model* model);
+	virtual void UpdateGeometry(const PxGeometry& geometry) = 0;
+	virtual void DrawShape();
 
 protected:
 
 	PxBounds3 mModelAABB;
+	Transform* mModelTransform = nullptr;
 };

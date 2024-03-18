@@ -1,5 +1,7 @@
 #include "SphereCollider.h"
 
+#include "../PhysX_Engine.h"
+
 void SphereCollider::InitializeGeometry(Model* model)
 {
 	BaseColliderShape::InitializeGeometry(model);
@@ -10,6 +12,17 @@ void SphereCollider::InitializeGeometry(Model* model)
 	mRadius = PxMin(PxMin(halfDiagonal.x, halfDiagonal.y), halfDiagonal.z);
 
 	mGeometry = new PxSphereGeometry();
+	mSphereGeometry = ((PxSphereGeometry*)mGeometry);
+	mSphereGeometry->radius = mRadius;
 
-	((PxSphereGeometry*)mGeometry)->radius = mRadius;
+}
+
+void SphereCollider::UpdateGeometry(const PxGeometry& geometry)
+{
+	//((PxSphereGeometry*)mGeometry)->radius = ((PxSphereGeometry&)geometry).radius;
+}
+
+void SphereCollider::DrawShape()
+{
+	Renderer::GetInstance().DrawSphere(mModelTransform->position, mSphereGeometry->radius, PhysX_Engine::GetInstance().gColliderColor);
 }

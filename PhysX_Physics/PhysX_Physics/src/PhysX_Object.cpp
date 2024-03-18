@@ -16,6 +16,13 @@ void PhysX_Object::Initialize(RigidBody::ePhysicsState physicsState, BaseCollide
 	mRigidActor->userData = this;
 }
 
+void PhysX_Object::Render()
+{
+	if (mColliderShape == nullptr) return;
+
+	mColliderShape->DrawShape();
+}
+
 void PhysX_Object::UpdatePhysicsState(RigidBody::ePhysicsState physicsState)
 {
 	//Return if no change in state
@@ -49,15 +56,22 @@ void PhysX_Object::UpdatePhysicsState(RigidBody::ePhysicsState physicsState)
 	else if (physicsState == RigidBody::DYNAMIC)
 	{
 		mRigidActor = PhysX_Engine::gPhysics->createRigidDynamic(pxTranform);
+
 	}
 	else if (physicsState == RigidBody::KINEMATIC)
 	{
 		mRigidActor = PhysX_Engine::gPhysics->createRigidDynamic(pxTranform);
 		UpdateKinematic(true);
 	}
+
+	//((PxRigidDynamic*)mRigidActor)->setRigidBodyFlag(PxRigidBodyFlag::eENABLE_CCD, true);
+
 	mRigidActor->attachShape(*shape);
 	shape->release();
+
+
 }
+
 
 void PhysX_Object::UpdateKinematic(bool isKinematic)
 {
@@ -77,7 +91,7 @@ void PhysX_Object::UpdateColliderShape(BaseColliderShape::eColliderShape collide
 			delete mColliderShape;
 		}
 	}
-	
+
 	switch (colliderShape)
 	{
 	case BaseColliderShape::SPHERE:
@@ -90,4 +104,25 @@ void PhysX_Object::UpdateColliderShape(BaseColliderShape::eColliderShape collide
 	}
 
 	mColliderShape->InitializeGeometry(this);
+}
+
+void PhysX_Object::SetVelocity(glm::vec3 velocity)
+{
+	if (mRigidBody.mPhysicsState == RigidBody::DYNAMIC)
+	{
+		((PxRigidDynamic*)mRigidActor)->setLinearVelocity(GLMVec3(velocity), true);
+	}
+}
+
+
+glm::vec3 PhysX_Object::GetVelocity()
+{
+	if (mRigidBody.mPhysicsState == RigidBody::DYNAMIC)
+	{
+		return PxVec3ToGLM(((PxRigidDynamic*)mRigidActor)->getLinearVelocity());
+	}
+
+	return glm::vec3(0);
+
+
 }

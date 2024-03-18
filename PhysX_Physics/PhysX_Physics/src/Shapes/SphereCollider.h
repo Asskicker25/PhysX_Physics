@@ -8,8 +8,12 @@ public:
 
 	float mRadius = 0;
 
+	PxSphereGeometry* mSphereGeometry = nullptr;
+
 	// Inherited via BaseColliderShape
 	void InitializeGeometry(Model* model) override;
+	void UpdateGeometry(const PxGeometry& geometry) override;
+	void DrawShape() override;
 
 };
 

@@ -1,6 +1,8 @@
 #include "SceneOne.h"
 #include "../AppSettings.h"
 
+#include "../Player.h"
+
 #include <PhysX_Object.h>
 
 void SceneOne::Start()
@@ -20,15 +22,18 @@ void SceneOne::Start()
 	
 	PhysX_Object* sphere = new PhysX_Object();
 	sphere->LoadModel("res/Models/DefaultSphere.fbx");
-	sphere->transform.SetPosition(glm::vec3(0.5f, 10, 0));
+	sphere->transform.SetPosition(glm::vec3(0.0f, 10, 0));
 	sphere->transform.SetScale(glm::vec3(0.5f));
 	sphere->Initialize(RigidBody::DYNAMIC, BaseColliderShape::SPHERE);
 
-	PhysX_Object* sphere2 = new PhysX_Object();
+	/*PhysX_Object* sphere2 = new PhysX_Object();
 	sphere2->CopyFromModel(*sphere,true);
 	sphere2->transform.SetPosition(glm::vec3(0, 1, 0));
 	sphere2->transform.SetScale(glm::vec3(1));
-	sphere2->Initialize(RigidBody::STATIC, BaseColliderShape::SPHERE);
+	sphere2->Initialize(RigidBody::STATIC, BaseColliderShape::SPHERE);*/
+
+	Player* player = new Player();
+
 }
 
 void SceneOne::Update()

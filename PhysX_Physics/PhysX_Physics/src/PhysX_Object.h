@@ -20,6 +20,10 @@ public:
 	RigidBody mRigidBody;
 	BaseColliderShape* mColliderShape = nullptr;
 
+	virtual void Render() override;
+	void SetVelocity(glm::vec3 velocity);
+	glm::vec3 GetVelocity();
+
 private:
 
 	void UpdatePhysicsState(RigidBody::ePhysicsState physicsState);

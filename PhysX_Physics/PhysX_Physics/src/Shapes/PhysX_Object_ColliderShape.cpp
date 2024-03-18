@@ -1,7 +1,9 @@
 #include "PhysX_Object_ColliderShape.h"
 #include "SphereCollider.h"
 #include "BoxCollider.h"
+#include "../PhysX_Engine.h"
 
+#include "../GLMToPhysX.h"
 #include "../ShapeUtils.h"
 
 SphereCollider* BaseColliderShape::AsSphere()
@@ -16,6 +18,7 @@ BoxCollider* BaseColliderShape::AsBox()
 
 void BaseColliderShape::InitializeGeometry(Model* model)
 {
+    mModelTransform = &model->transform;
 
     for (MeshAndMaterial* mesh : model->meshes)
     {
@@ -29,4 +32,16 @@ void BaseColliderShape::InitializeGeometry(Model* model)
     mModelAABB.maximum.x *= model->transform.scale.x;
     mModelAABB.maximum.y *= model->transform.scale.y;
     mModelAABB.maximum.z *= model->transform.scale.z;
+}
+
+void BaseColliderShape::DrawShape()
+{
+    modelAABB aabb;
+    aabb.min = PxVec3ToGLM( mModelAABB.minimum);
+    aabb.max = PxVec3ToGLM( mModelAABB.maximum);
+
+    aabb.min += mModelTransform->position;
+    aabb.max += mModelTransform->position;
+
+    Renderer::GetInstance().DrawAABB(aabb, PhysX_Engine::gColliderColor,false);
 }

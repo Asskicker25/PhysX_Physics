@@ -291,7 +291,7 @@ void Renderer::SetNormalsLineScale(const glm::vec3& scale)
 	this->normalsScale = scale;
 }
 
-void Renderer::DrawAABB(const modelAABB& aabb, glm::vec4 color, bool drawFromModel)
+void Renderer::DrawAABB(const modelAABB& aabb, glm::vec4 color, bool drawFromModel, glm::vec3 rotation)
 {
 	glm::vec3 targetExtents = 0.5f * (aabb.max - aabb.min);
 	glm::vec3 center = 0.5f * (aabb.max + aabb.min);
@@ -308,7 +308,7 @@ void Renderer::DrawAABB(const modelAABB& aabb, glm::vec4 color, bool drawFromMod
 	}
 
 	cube->transform.SetPosition(center);
-	cube->transform.SetRotation(glm::vec3(0));
+	cube->transform.SetRotation(rotation);
 	cube->transform.SetScale(targetExtents);
 	cube->DrawWireframe(color);
 }

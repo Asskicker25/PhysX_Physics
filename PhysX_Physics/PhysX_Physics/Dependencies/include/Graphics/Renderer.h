@@ -103,7 +103,7 @@ public:
 	void SortBlendModels();
 	const glm::vec3&  GetNormalsScale();
 	void SetNormalsLineScale(const glm::vec3& scale);
-	void DrawAABB(const modelAABB& aabb, glm::vec4 color = glm::vec4(0.0,0.0,1.0,1.0), bool drawFromModel = true);
+	void DrawAABB(const modelAABB& aabb, glm::vec4 color = glm::vec4(0.0, 0.0, 1.0, 1.0), bool drawFromModel = true, glm::vec3 rotation = glm::vec3(0));
 	void DrawCube(const glm::vec3 pos, const glm::vec3 rot, const glm::vec3 scale, const glm::vec4 color, bool drawFromModel = true);
 	void DrawSphere(const glm::vec3 center, float radius, glm::vec4 color = glm::vec4(0.0, 0.0, 1.0, 1.0));
 	void DrawLine(const glm::vec3 startPoint, const glm::vec3 endPoint, glm::vec4 color);

@@ -41,6 +41,8 @@ public:
 	static PxScene*					gScene;
 	static PxMaterial*				gDefaultMaterial;
 
+	static glm::vec4				gColliderColor;
+
 	PhysicsProperties mPhysicsProperties;
 
 private:

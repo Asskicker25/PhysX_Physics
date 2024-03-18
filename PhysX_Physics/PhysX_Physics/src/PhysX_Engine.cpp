@@ -13,6 +13,8 @@ PxPhysics* PhysX_Engine::gPhysics = NULL;
 PxDefaultCpuDispatcher* PhysX_Engine::gDispatcher = NULL;
 PxScene* PhysX_Engine::gScene = NULL;
 PxMaterial* PhysX_Engine::gDefaultMaterial = NULL;
+glm::vec4 PhysX_Engine::gColliderColor = glm::vec4(0, 1, 0, 1);
+
 
 
 PhysX_Engine& PhysX_Engine::GetInstance()
@@ -129,8 +131,16 @@ void PhysX_Engine::UpdateRender()
 	{
 		if (actor->userData == NULL) continue;
 
+		PhysX_Object* phyObj = (PhysX_Object*)actor->userData;
+
+		if (phyObj->mRigidBody.mPhysicsState == RigidBody::KINEMATIC)
+		{
+			((PxRigidDynamic*)actor)->setKinematicTarget(PxTransform(GLMVec3(phyObj->transform.position), GLMQuat(phyObj->transform.quaternionRotation)));
+			continue;
+		}
+
 		actorPos = glm::vec3(0);
-		actorRot = glm::quat(0,0,0,0);
+		actorRot = glm::quat(0, 0, 0, 0);
 
 		const PxU32 nbShapes = actor->getNbShapes();
 		PX_ASSERT(nbShapes <= MAX_NUM_ACTOR_SHAPES);
@@ -144,13 +154,14 @@ void PhysX_Engine::UpdateRender()
 
 			actorPos += PxVec3ToGLM(shapePose.getPosition());
 			actorRot += PxQuatToGLM(PxQuat(PxMat3FromMat4(shapePose)));
+
+			phyObj->mColliderShape->UpdateGeometry(geom);
 		}
 
 		actorPos /= nbShapes;
 		actorRot /= nbShapes;
 
 
-		PhysX_Object* phyObj = (PhysX_Object*)actor->userData;
 		phyObj->transform.SetPosition(actorPos);
 		phyObj->transform.SetQuatRotation(actorRot);
 	}
