@@ -5,9 +5,13 @@
 #include "PhysX_Object_RigidBody.h"
 #include "Shapes/PhysX_Object_ColliderShape.h"
 
+#include "CollisionInfo.h"
+
+
 class PhysX_Engine;
 
 using namespace physx;
+
 
 class PhysX_Object : public Model
 {
@@ -21,7 +25,7 @@ public:
 	virtual void OnTriggerEnter(PhysX_Object* other) {};
 	virtual void OnTriggerExit(PhysX_Object* other) {};
 
-	virtual void OnCollisionEnter(PhysX_Object* other) {};
+	virtual void OnCollisionEnter(PhysX_Object* other, CollisionInfo collisionInfo) {};
 	virtual void OnCollisionExit(PhysX_Object* other) {};
 
 	void SetVelocity(glm::vec3 velocity);

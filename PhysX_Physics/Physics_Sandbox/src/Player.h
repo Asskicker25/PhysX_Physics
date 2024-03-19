@@ -12,7 +12,7 @@ public:
 	virtual void OnTriggerEnter(PhysX_Object* other);
 	virtual void OnTriggerExit(PhysX_Object* other);
 
-	virtual void OnCollisionEnter(PhysX_Object* other);
+	virtual void OnCollisionEnter(PhysX_Object* other, CollisionInfo collisionInfo);
 	virtual void OnCollisionExit(PhysX_Object* other);
 
 private:

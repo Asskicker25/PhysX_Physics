@@ -35,9 +35,10 @@ void Player::OnTriggerExit(PhysX_Object* other)
 	printf("Player Trigger Exit With : %s\n", other->name.c_str());
 }
 
-void Player::OnCollisionEnter(PhysX_Object* other)
+void Player::OnCollisionEnter(PhysX_Object* other, CollisionInfo collisionInfo)
 {
-	printf("Player Collision Enter With : %s\n", other->name.c_str());
+	glm::vec3 point = collisionInfo.mListOfCollisionPts[0];
+	printf("Player Collision Enter With : %s at %.1f,%.1f,%.1f\n", other->name.c_str(), point.x, point.y, point.z);
 }
 
 void Player::OnCollisionExit(PhysX_Object* other)

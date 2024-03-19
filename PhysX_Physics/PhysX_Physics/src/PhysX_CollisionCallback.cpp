@@ -21,43 +21,42 @@ void PhysX_CollisionCallback::onSleep(PxActor** actors, PxU32 count)
 
 void PhysX_CollisionCallback::onContact(const PxContactPairHeader& pairHeader, const PxContactPair* pairs, PxU32 nbPairs)
 {
+	CollisionInfo collisionInfo;
 
 	PhysX_Object* collidedActor = (PhysX_Object*)pairHeader.actors[0]->userData;
 	PhysX_Object* otherActor = (PhysX_Object*)pairHeader.actors[1]->userData;
 
 	for (int i = 0; i < nbPairs; i++)
 	{
-		const PxContactPair& pair = pairs[i];
+		std::vector<PxContactPairPoint> contactPoints;
 
-		if (pair.flags == PxContactPairFlag::eACTOR_PAIR_HAS_FIRST_TOUCH)
+		PxU32 contactCount = pairs[i].contactCount;
+		if (contactCount)
 		{
-			collidedActor->OnCollisionEnter(otherActor);
-			otherActor->OnCollisionEnter(collidedActor);
+			contactPoints.resize(contactCount);
+			pairs[i].extractContacts(&contactPoints[0], contactCount);
+
+			for (PxU32 j = 0; j < contactCount; j++)
+			{
+				collisionInfo.mListOfCollisionPts.push_back(PxVec3ToGLM(contactPoints[j].position));
+			}
 		}
-		else if (pair.flags == PxContactPairFlag::eACTOR_PAIR_LOST_TOUCH)
+
+	}
+
+	for (int i = 0; i < nbPairs; i++)
+	{
+		const PxContactPair& pair = pairs[i];
+		if (pair.flags & PxContactPairFlag::eACTOR_PAIR_HAS_FIRST_TOUCH)
+		{
+			collidedActor->OnCollisionEnter(otherActor, collisionInfo);
+			otherActor->OnCollisionEnter(collidedActor, collisionInfo);
+		}
+		else if (pair.flags & PxContactPairFlag::eACTOR_PAIR_LOST_TOUCH)
 		{
 			collidedActor->OnCollisionExit(otherActor);
 			otherActor->OnCollisionExit(collidedActor);
 		}
-
-		std::vector<PxContactPairPoint> contactPoints;
-
-		for (PxU32 i = 0; i < nbPairs; i++)
-		{
-			PxU32 contactCount = pairs[i].contactCount;
-			if (contactCount)
-			{
-				contactPoints.resize(contactCount);
-				pairs[i].extractContacts(&contactPoints[0], contactCount);
-
-				for (PxU32 j = 0; j < contactCount; j++)
-				{
-					collidedActor->mListOfCollisionPoints.push_back(PxVec3ToGLM(contactPoints[j].position));
-					otherActor->mListOfCollisionPoints.push_back(PxVec3ToGLM(contactPoints[j].position));
-				}
-			}
-		}
-
 	}
 
 
@@ -76,12 +75,12 @@ void PhysX_CollisionCallback::onTrigger(PxTriggerPair* pairs, PxU32 count)
 		triggerActor = (PhysX_Object*)pair.triggerActor->userData;
 		otherActor = (PhysX_Object*)pair.otherActor->userData;
 
-		if (pair.status == PxPairFlag::eNOTIFY_TOUCH_FOUND)
+		if (pair.status & PxPairFlag::eNOTIFY_TOUCH_FOUND)
 		{
 			triggerActor->OnTriggerEnter(otherActor);
 			otherActor->OnTriggerEnter(triggerActor);
 		}
-		else if (pair.status == PxPairFlag::eNOTIFY_TOUCH_LOST)
+		else if (pair.status & PxPairFlag::eNOTIFY_TOUCH_LOST)
 		{
 			triggerActor->OnTriggerExit(otherActor);
 			otherActor->OnTriggerExit(triggerActor);
