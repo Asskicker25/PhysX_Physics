@@ -10,10 +10,14 @@
 
 void PhysX_Object::Initialize(RigidBody::ePhysicsState physicsState, BaseColliderShape::eColliderShape colliderShape)
 {
-	UpdateColliderShape(colliderShape);
+
 	UpdatePhysicsState(physicsState);
+	UpdateColliderShape(colliderShape);
 	PhysX_Engine::gScene->addActor(*mRigidActor);
+
+	mRigidBody.Initialize(this);
 	mRigidActor->userData = this;
+
 }
 
 void PhysX_Object::Render()
@@ -47,8 +51,6 @@ void PhysX_Object::UpdatePhysicsState(RigidBody::ePhysicsState physicsState)
 
 	PxTransform pxTranform(GLMVec3(transform.position), GLMQuat(transform.quaternionRotation));
 
-	PxShape* shape = PhysX_Engine::gPhysics->createShape(*mColliderShape->mGeometry, *PhysX_Engine::gDefaultMaterial);
-
 	if (physicsState == RigidBody::STATIC)
 	{
 		mRigidActor = PhysX_Engine::gPhysics->createRigidStatic(pxTranform);
@@ -66,10 +68,7 @@ void PhysX_Object::UpdatePhysicsState(RigidBody::ePhysicsState physicsState)
 
 	//((PxRigidDynamic*)mRigidActor)->setRigidBodyFlag(PxRigidBodyFlag::eENABLE_CCD, true);
 
-	mRigidActor->attachShape(*shape);
-	shape->release();
-
-
+	//((PxRigidDynamic*)mRigidActor)->setRigidBodyFlag(PxRigidBodyFlag::eENABLE_CCD, true);
 }
 
 
@@ -77,6 +76,8 @@ void PhysX_Object::UpdateKinematic(bool isKinematic)
 {
 	((PxRigidDynamic*)mRigidActor)->setRigidBodyFlag(PxRigidBodyFlag::eKINEMATIC, true);
 }
+
+
 
 void PhysX_Object::UpdateColliderShape(BaseColliderShape::eColliderShape colliderShape)
 {
@@ -101,10 +102,22 @@ void PhysX_Object::UpdateColliderShape(BaseColliderShape::eColliderShape collide
 	case BaseColliderShape::BOX:
 		mColliderShape = new BoxCollider();
 		break;
+	default: 
+		mColliderShape = new SphereCollider();
+		break;
 	}
 
 	mColliderShape->InitializeGeometry(this);
+
+	PxShape* shape = PhysX_Engine::gPhysics->createShape(*mColliderShape->mGeometry, *PhysX_Engine::gDefaultMaterial);
+	mRigidActor->attachShape(*shape);
+	//shape->release();
+
+	mColliderShape->mColliderShape = &(*shape);
+
 }
+
+
 
 void PhysX_Object::SetVelocity(glm::vec3 velocity)
 {
@@ -112,6 +125,14 @@ void PhysX_Object::SetVelocity(glm::vec3 velocity)
 	{
 		((PxRigidDynamic*)mRigidActor)->setLinearVelocity(GLMVec3(velocity), true);
 	}
+}
+
+void PhysX_Object::OnPropertyDraw()
+{
+	Model::OnPropertyDraw();
+
+	mRigidBody.DrawProperty();
+	mColliderShape->DrawProperty();
 }
 
 
@@ -123,6 +144,5 @@ glm::vec3 PhysX_Object::GetVelocity()
 	}
 
 	return glm::vec3(0);
-
-
 }
+

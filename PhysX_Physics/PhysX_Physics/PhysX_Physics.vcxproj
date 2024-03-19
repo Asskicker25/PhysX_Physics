@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\PhysX_CollisionCallback.h" />
     <ClInclude Include="src\GLMToPhysX.h" />
     <ClInclude Include="src\Shapes\BoxCollider.h" />
     <ClInclude Include="src\Shapes\SphereCollider.h" />
@@ -28,7 +29,9 @@
     <ClInclude Include="src\ShapeUtils.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\PhysX_CollisionCallback.cpp" />
     <ClCompile Include="src\GLMToPhysX.cpp" />
+    <ClCompile Include="src\PhysX_Object_RigidBody.cpp" />
     <ClCompile Include="src\Shapes\BoxCollider.cpp" />
     <ClCompile Include="src\Shapes\PhysX_Object_ColliderShape.cpp" />
     <ClCompile Include="src\Shapes\SphereCollider.cpp" />

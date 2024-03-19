@@ -9,6 +9,11 @@ public:
 	Player();
 
 	virtual void Update(float deltaTime) override;
+	virtual void OnTriggerEnter(PhysX_Object* other);
+	virtual void OnTriggerExit(PhysX_Object* other);
+
+	virtual void OnCollisionEnter(PhysX_Object* other);
+	virtual void OnCollisionExit(PhysX_Object* other);
 
 private:
 

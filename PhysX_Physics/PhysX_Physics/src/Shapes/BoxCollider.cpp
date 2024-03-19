@@ -3,9 +3,9 @@
 #include "../GLMToPhysX.h"
 #include "../PhysX_Engine.h"
 
-void BoxCollider::InitializeGeometry(Model* model)
+void BoxCollider::InitializeGeometry(PhysX_Object* phyObj)
 {
-	BaseColliderShape::InitializeGeometry(model);
+	BaseColliderShape::InitializeGeometry(phyObj);
 
 	mGeometry = new PxBoxGeometry();
 	mBoxGeometry = (PxBoxGeometry*)mGeometry;

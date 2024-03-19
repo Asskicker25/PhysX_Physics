@@ -14,20 +14,33 @@ class PhysX_Object : public Model
 public:
 
 	void Initialize(RigidBody::ePhysicsState physicsState = RigidBody::STATIC, BaseColliderShape::eColliderShape colliderShape = BaseColliderShape::SPHERE);
+	
+	virtual void Render() override;
+	virtual void OnPropertyDraw() override;
+
+	virtual void OnTriggerEnter(PhysX_Object* other) {};
+	virtual void OnTriggerExit(PhysX_Object* other) {};
+
+	virtual void OnCollisionEnter(PhysX_Object* other) {};
+	virtual void OnCollisionExit(PhysX_Object* other) {};
+
+	void SetVelocity(glm::vec3 velocity);
+
+	glm::vec3 GetVelocity();
 
 	PxRigidActor* mRigidActor = nullptr;
 
 	RigidBody mRigidBody;
 	BaseColliderShape* mColliderShape = nullptr;
 
-	virtual void Render() override;
-	void SetVelocity(glm::vec3 velocity);
-	glm::vec3 GetVelocity();
+	std::vector<glm::vec3> mListOfCollisionPoints;
+
 
 private:
 
 	void UpdatePhysicsState(RigidBody::ePhysicsState physicsState);
 	void UpdateKinematic(bool isKinematic);
 	void UpdateColliderShape(BaseColliderShape::eColliderShape colliderShape);
+
 };
 

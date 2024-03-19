@@ -6,6 +6,7 @@
 #include <glm/glm.hpp>
 
 #include "PhysicsMaterial.h"
+#include "PhysX_CollisionCallback.h"
 
 #define PVD_HOST				"127.0.0.1"	
 #define MAX_NUM_ACTOR_SHAPES	128
@@ -43,7 +44,13 @@ public:
 
 	static glm::vec4				gColliderColor;
 
+
+	static PxFilterFlags ContactReportFilterShader(PxFilterObjectAttributes attributes0, PxFilterData filterData0,
+		PxFilterObjectAttributes attributes1, PxFilterData filterData1,
+		PxPairFlags& pairFlags, const void* constantBlock, PxU32 constantBlockSize);
+
 	PhysicsProperties mPhysicsProperties;
+	PhysX_CollisionCallback mCollisionCallback;
 
 private:
 

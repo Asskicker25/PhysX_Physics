@@ -7,6 +7,7 @@ using namespace physx;
 
 class SphereCollider;
 class BoxCollider;
+class PhysX_Object;
 
 class BaseColliderShape
 {
@@ -23,17 +24,22 @@ public:
 	bool mIsTrigger = false;
 	eColliderShape mShape = eColliderShape::SPHERE;
 
+	PxShape* mColliderShape = nullptr;
 	PxGeometry* mGeometry = nullptr;
 
 	SphereCollider* AsSphere();
 	BoxCollider* AsBox();
 
-	virtual void InitializeGeometry(Model* model);
+	virtual void InitializeGeometry(PhysX_Object* phyObj);
 	virtual void UpdateGeometry(const PxGeometry& geometry) = 0;
 	virtual void DrawShape();
+
+	void DrawProperty();
+	void SetTriggerState(bool isTrigger = true);
 
 protected:
 
 	PxBounds3 mModelAABB;
+	PhysX_Object* mPhyObj = nullptr;
 	Transform* mModelTransform = nullptr;
 };

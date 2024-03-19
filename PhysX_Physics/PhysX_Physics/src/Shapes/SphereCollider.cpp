@@ -2,9 +2,9 @@
 
 #include "../PhysX_Engine.h"
 
-void SphereCollider::InitializeGeometry(Model* model)
+void SphereCollider::InitializeGeometry(PhysX_Object* phyObj)
 {
-	BaseColliderShape::InitializeGeometry(model);
+	BaseColliderShape::InitializeGeometry(phyObj);
 
 	PxVec3 center = (mModelAABB.minimum + mModelAABB.maximum) * 0.5f;
 	PxVec3 halfDiagonal = (mModelAABB.maximum - mModelAABB.minimum) * 0.5f;

@@ -19,12 +19,21 @@ void SceneOne::Start()
 	dirLight->transform.SetScale(glm::vec3(0.1f));
 	dirLight->transform.SetPosition(glm::vec3(0, 0, 3));
 	dirLight->InitializeLight(Directional);
-	
+
 	PhysX_Object* sphere = new PhysX_Object();
 	sphere->LoadModel("res/Models/DefaultSphere.fbx");
 	sphere->transform.SetPosition(glm::vec3(0.0f, 10, 0));
 	sphere->transform.SetScale(glm::vec3(0.5f));
 	sphere->Initialize(RigidBody::DYNAMIC, BaseColliderShape::SPHERE);
+	sphere->mRigidBody.SetMass(10);
+	sphere->name = "Sphere";
+
+	PhysX_Object* plane = new PhysX_Object();
+	plane->LoadModel("res/Models/DefaultCube.fbx");
+	plane->transform.SetPosition(glm::vec3(0.0f, -0.15f, 0));
+	plane->transform.SetScale(glm::vec3(20, 0.1f, 20));
+	plane->Initialize(RigidBody::STATIC, BaseColliderShape::BOX);
+	plane->name = "Plane";
 
 	/*PhysX_Object* sphere2 = new PhysX_Object();
 	sphere2->CopyFromModel(*sphere,true);

@@ -69,9 +69,10 @@ void PhysX_Engine::Initialize()
 	sceneDesc.gravity = PxVec3(mPhysicsProperties.mWorldGravity.x, mPhysicsProperties.mWorldGravity.y, mPhysicsProperties.mWorldGravity.z);
 	gDispatcher = PxDefaultCpuDispatcherCreate(2);
 	sceneDesc.cpuDispatcher = gDispatcher;
-	sceneDesc.filterShader = PxDefaultSimulationFilterShader;
+	sceneDesc.filterShader = ContactReportFilterShader;
 	gScene = gPhysics->createScene(sceneDesc);
 
+	gScene->setSimulationEventCallback(&mCollisionCallback);
 
 	PxPvdSceneClient* pvdClient = gScene->getScenePvdClient();
 	if (pvdClient)
@@ -84,8 +85,8 @@ void PhysX_Engine::Initialize()
 #pragma endregion
 
 
-	PxRigidStatic* groundPlane = PxCreatePlane(*gPhysics, PxPlane(0, 1, 0, 0), *gDefaultMaterial);
-	gScene->addActor(*groundPlane);
+	//PxRigidStatic* groundPlane = PxCreatePlane(*gPhysics, PxPlane(0, 1, 0, 0), *gDefaultMaterial);
+	//gScene->addActor(*groundPlane);
 }
 
 void PhysX_Engine::Update()
@@ -168,3 +169,24 @@ void PhysX_Engine::UpdateRender()
 
 }
 
+
+PxFilterFlags PhysX_Engine::ContactReportFilterShader(PxFilterObjectAttributes attributes0, PxFilterData filterData0,
+	PxFilterObjectAttributes attributes1, PxFilterData filterData1,
+	PxPairFlags& pairFlags, const void* constantBlock, PxU32 constantBlockSize)
+{
+	PX_UNUSED(attributes0);
+	PX_UNUSED(attributes1);
+	PX_UNUSED(filterData0);
+	PX_UNUSED(filterData1);
+	PX_UNUSED(constantBlockSize);
+	PX_UNUSED(constantBlock);
+
+	// all initial and persisting reports for everything, with per-point data
+	pairFlags = PxPairFlag::eSOLVE_CONTACT | PxPairFlag::eDETECT_DISCRETE_CONTACT
+		| PxPairFlag::eNOTIFY_TOUCH_FOUND
+		| PxPairFlag::eNOTIFY_TOUCH_PERSISTS
+		| PxPairFlag::eNOTIFY_TOUCH_LOST
+		| PxPairFlag::eNOTIFY_CONTACT_POINTS;
+
+	return PxFilterFlag::eDEFAULT;
+}

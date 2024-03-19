@@ -8,7 +8,7 @@ public:
 	PxBoxGeometry* mBoxGeometry = nullptr;
 
 	// Inherited via BaseColliderShape
-	void InitializeGeometry(Model* model) override;
+	void InitializeGeometry(PhysX_Object* phyObj) override;
 	void UpdateGeometry(const PxGeometry& geometry) override;
 	virtual void DrawShape();
 

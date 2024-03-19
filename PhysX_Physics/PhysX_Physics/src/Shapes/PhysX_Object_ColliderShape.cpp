@@ -2,9 +2,12 @@
 #include "SphereCollider.h"
 #include "BoxCollider.h"
 #include "../PhysX_Engine.h"
+#include "../PhysX_Object.h"
 
 #include "../GLMToPhysX.h"
 #include "../ShapeUtils.h"
+
+#include <Graphics/Panels/ImguiDrawUtils.h>
 
 SphereCollider* BaseColliderShape::AsSphere()
 {
@@ -16,22 +19,23 @@ BoxCollider* BaseColliderShape::AsBox()
     return (BoxCollider*)this;
 }
 
-void BaseColliderShape::InitializeGeometry(Model* model)
+void BaseColliderShape::InitializeGeometry(PhysX_Object* phyObj)
 {
-    mModelTransform = &model->transform;
+    mPhyObj = phyObj;
+    mModelTransform = &phyObj->transform;
 
-    for (MeshAndMaterial* mesh : model->meshes)
+    for (MeshAndMaterial* mesh : phyObj->meshes)
     {
         UpdateAABBExtends(mModelAABB, CalcualteAABB(mesh->mesh->vertices));
     }
 
-    mModelAABB.minimum.x *= model->transform.scale.x;
-    mModelAABB.minimum.y *= model->transform.scale.y;
-    mModelAABB.minimum.z *= model->transform.scale.z;
+    mModelAABB.minimum.x *= phyObj->transform.scale.x;
+    mModelAABB.minimum.y *= phyObj->transform.scale.y;
+    mModelAABB.minimum.z *= phyObj->transform.scale.z;
 
-    mModelAABB.maximum.x *= model->transform.scale.x;
-    mModelAABB.maximum.y *= model->transform.scale.y;
-    mModelAABB.maximum.z *= model->transform.scale.z;
+    mModelAABB.maximum.x *= phyObj->transform.scale.x;
+    mModelAABB.maximum.y *= phyObj->transform.scale.y;
+    mModelAABB.maximum.z *= phyObj->transform.scale.z;
 }
 
 void BaseColliderShape::DrawShape()
@@ -44,4 +48,38 @@ void BaseColliderShape::DrawShape()
     aabb.max += mModelTransform->position;
 
     Renderer::GetInstance().DrawAABB(aabb, PhysX_Engine::gColliderColor,false);
+}
+
+void BaseColliderShape::DrawProperty()
+{
+    if (!ImGui::TreeNodeEx("Collider", ImGuiTreeNodeFlags_DefaultOpen))
+    {
+        return;
+    }
+
+    if(ImGuiUtils::DrawBool("IsTrigger", mIsTrigger))
+    {
+        SetTriggerState(mIsTrigger);
+    }
+
+    ImGui::TreePop();
+}
+
+void BaseColliderShape::SetTriggerState(bool isTrigger)
+{
+    mIsTrigger = isTrigger;
+    mPhyObj->mRigidActor->detachShape(*mColliderShape);
+
+    if (mIsTrigger)
+    {
+        mColliderShape->setFlag(PxShapeFlag::eSIMULATION_SHAPE, !mIsTrigger);
+        mColliderShape->setFlag(PxShapeFlag::eTRIGGER_SHAPE, mIsTrigger);
+    }
+    else
+    {
+        mColliderShape->setFlag(PxShapeFlag::eTRIGGER_SHAPE, mIsTrigger);
+        mColliderShape->setFlag(PxShapeFlag::eSIMULATION_SHAPE, !mIsTrigger);
+    }
+  
+    mPhyObj->mRigidActor->attachShape(*mColliderShape);
 }

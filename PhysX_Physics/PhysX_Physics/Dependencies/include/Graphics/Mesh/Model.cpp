@@ -454,9 +454,9 @@ MeshDataHolder* Model::ProcessMesh(aiMesh* mesh, const aiScene* scene)
 		meshDataHolder->hasMaterials = false;
 	}
 
-	std::string meshName = mesh->mName.C_Str();
+	meshDataHolder->meshName = mesh->mName.C_Str();
 
-	if (meshName == "")
+	if (meshDataHolder->meshName == "")
 	{
 		meshDataHolder->meshName = "Mesh " + std::to_string(meshes.size());
 	}
