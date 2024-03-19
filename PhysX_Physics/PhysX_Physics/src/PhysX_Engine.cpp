@@ -97,6 +97,30 @@ void PhysX_Engine::Update()
 	UpdateRender();
 }
 
+void PhysX_Engine::AddPhysicsObject(PhysX_Object* phyObj)
+{
+	if (mApplicationStarted)
+	{
+		phyObj->InitializeRigidActor();
+	}
+	else
+	{
+		mListOfPhysicObjects.push_back(phyObj);
+	}
+}
+
+void PhysX_Engine::OnApplicationStart()
+{
+	if (mApplicationStarted) return;
+
+	for (PhysX_Object* phyObj : mListOfPhysicObjects)
+	{
+		phyObj->InitializeRigidActor();
+	}
+
+	mApplicationStarted = true;
+}
+
 void PhysX_Engine::Cleanup()
 {
 	PX_RELEASE(gScene);
@@ -184,7 +208,6 @@ PxFilterFlags PhysX_Engine::ContactReportFilterShader(PxFilterObjectAttributes a
 	// all initial and persisting reports for everything, with per-point data
 	pairFlags = PxPairFlag::eSOLVE_CONTACT | PxPairFlag::eDETECT_DISCRETE_CONTACT
 		| PxPairFlag::eNOTIFY_TOUCH_FOUND
-		| PxPairFlag::eNOTIFY_TOUCH_PERSISTS
 		| PxPairFlag::eNOTIFY_TOUCH_LOST
 		| PxPairFlag::eNOTIFY_CONTACT_POINTS;
 

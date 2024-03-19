@@ -28,6 +28,8 @@ public:
 	virtual void OnCollisionEnter(PhysX_Object* other, CollisionInfo collisionInfo) {};
 	virtual void OnCollisionExit(PhysX_Object* other) {};
 
+	void InitializeRigidActor();
+
 	void SetVelocity(glm::vec3 velocity);
 
 	glm::vec3 GetVelocity();
@@ -42,7 +44,6 @@ public:
 
 private:
 
-	void UpdatePhysicsState(RigidBody::ePhysicsState physicsState);
 	void UpdateKinematic(bool isKinematic);
 	void UpdateColliderShape(BaseColliderShape::eColliderShape colliderShape);
 

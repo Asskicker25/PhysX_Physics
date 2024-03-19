@@ -15,5 +15,10 @@ public:
 	void UpdateGeometry(const PxGeometry& geometry) override;
 	void DrawShape() override;
 
+	virtual void DrawShapeProperty();
+
+
+	void SetRadius(float radius);
+
 };
 

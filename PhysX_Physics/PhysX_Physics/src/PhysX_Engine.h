@@ -11,6 +11,8 @@
 #define PVD_HOST				"127.0.0.1"	
 #define MAX_NUM_ACTOR_SHAPES	128
 
+class PhysX_Object;
+
 using namespace physx;
 
 class PhysX_Engine
@@ -32,6 +34,9 @@ public:
 	void Initialize();
 	void Update();
 	void Cleanup();
+	void OnApplicationStart();
+
+	void AddPhysicsObject(PhysX_Object* physObj);
 
 	static PxDefaultAllocator		gAllocator;
 	static PxDefaultErrorCallback	gErrorCallback;
@@ -52,8 +57,12 @@ public:
 	PhysicsProperties mPhysicsProperties;
 	PhysX_CollisionCallback mCollisionCallback;
 
+	bool mApplicationStarted = false;
+
 private:
 
 	void UpdateRender();
+
+	std::vector<PhysX_Object*> mListOfPhysicObjects;
 };
 

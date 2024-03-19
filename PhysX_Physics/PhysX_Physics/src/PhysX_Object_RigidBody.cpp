@@ -30,7 +30,7 @@ void RigidBody::DrawProperty()
 void RigidBody::SetMass(float mass)
 {
 	mMass = mass;
-	if (mPhysicsState == DYNAMIC)
+	if (mPhysicsState == DYNAMIC && mPhyObj != nullptr)
 	{
 		((PxRigidDynamic*)mPhyObj->mRigidActor)->setMass(mMass);
 	}

@@ -31,10 +31,13 @@ public:
 	BoxCollider* AsBox();
 
 	virtual void InitializeGeometry(PhysX_Object* phyObj);
+	virtual void OnAddedToScene();
 	virtual void UpdateGeometry(const PxGeometry& geometry) = 0;
 	virtual void DrawShape();
+	virtual void DrawShapeProperty() {};
 
 	void DrawProperty();
+
 	void SetTriggerState(bool isTrigger = true);
 
 protected:

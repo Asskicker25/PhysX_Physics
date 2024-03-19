@@ -5,6 +5,8 @@
 
 #include <PhysX_Object.h>
 
+#include <Shapes/SphereCollider.h>
+
 void SceneOne::Start()
 {
 	GameCamera* mainCamera = new GameCamera();
@@ -27,6 +29,7 @@ void SceneOne::Start()
 	sphere->Initialize(RigidBody::DYNAMIC, BaseColliderShape::SPHERE);
 	sphere->mRigidBody.SetMass(10);
 	sphere->name = "Sphere";
+	sphere->mColliderShape->AsSphere()->SetRadius(2);
 
 	PhysX_Object* plane = new PhysX_Object();
 	plane->LoadModel("res/Models/DefaultCube.fbx");

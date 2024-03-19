@@ -1,6 +1,8 @@
 #include "SphereCollider.h"
-
 #include "../PhysX_Engine.h"
+#include "../PhysX_Object.h"
+
+#include <Graphics/Panels/ImguiDrawUtils.h>
 
 void SphereCollider::InitializeGeometry(PhysX_Object* phyObj)
 {
@@ -9,12 +11,10 @@ void SphereCollider::InitializeGeometry(PhysX_Object* phyObj)
 	PxVec3 center = (mModelAABB.minimum + mModelAABB.maximum) * 0.5f;
 	PxVec3 halfDiagonal = (mModelAABB.maximum - mModelAABB.minimum) * 0.5f;
 
-	mRadius = PxMin(PxMin(halfDiagonal.x, halfDiagonal.y), halfDiagonal.z);
+	float radius = PxMin(PxMin(halfDiagonal.x, halfDiagonal.y), halfDiagonal.z);
 
 	mGeometry = new PxSphereGeometry();
-	mSphereGeometry = ((PxSphereGeometry*)mGeometry);
-	mSphereGeometry->radius = mRadius;
-
+	SetRadius(radius);
 }
 
 void SphereCollider::UpdateGeometry(const PxGeometry& geometry)
@@ -24,5 +24,19 @@ void SphereCollider::UpdateGeometry(const PxGeometry& geometry)
 
 void SphereCollider::DrawShape()
 {
-	Renderer::GetInstance().DrawSphere(mModelTransform->position, mSphereGeometry->radius, PhysX_Engine::GetInstance().gColliderColor);
+	Renderer::GetInstance().DrawSphere(mModelTransform->position, mRadius, PhysX_Engine::GetInstance().gColliderColor);
+}
+
+void SphereCollider::DrawShapeProperty()
+{
+	if (ImGuiUtils::DrawFloat("Radius", mRadius))
+	{
+		SetRadius(mRadius);
+	}
+}
+
+void SphereCollider::SetRadius(float radius)
+{
+	mRadius = radius;
+	((PxSphereGeometry*)mGeometry)->radius = radius;
 }

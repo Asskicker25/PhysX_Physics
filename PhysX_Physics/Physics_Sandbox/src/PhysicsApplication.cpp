@@ -45,6 +45,10 @@ void PhysicsApplication::Shutdown()
 
 void PhysicsApplication::OnPlayStateChanged(bool state)
 {
+	if (state)
+	{
+		PhysX_Engine::GetInstance().OnApplicationStart();
+	}
 }
 
 void PhysicsApplication::ProcessInput(GLFWwindow* window)

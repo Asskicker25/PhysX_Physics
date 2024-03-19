@@ -11,13 +11,13 @@
 void PhysX_Object::Initialize(RigidBody::ePhysicsState physicsState, BaseColliderShape::eColliderShape colliderShape)
 {
 
-	UpdatePhysicsState(physicsState);
 	UpdateColliderShape(colliderShape);
-	PhysX_Engine::gScene->addActor(*mRigidActor);
+	//UpdatePhysicsState(physicsState);
+	//PhysX_Engine::gScene->addActor(*mRigidActor);
 
-	mRigidBody.Initialize(this);
-	mRigidActor->userData = this;
+	mRigidBody.mPhysicsState = physicsState;
 
+	PhysX_Engine::GetInstance().AddPhysicsObject(this);
 }
 
 void PhysX_Object::Render()
@@ -27,46 +27,36 @@ void PhysX_Object::Render()
 	mColliderShape->DrawShape();
 }
 
-void PhysX_Object::UpdatePhysicsState(RigidBody::ePhysicsState physicsState)
+void PhysX_Object::InitializeRigidActor()
 {
 	//Return if no change in state
-	if (mRigidBody.mPhysicsState == physicsState) return;
-
-	RigidBody::ePhysicsState oldState = mRigidBody.mPhysicsState;
-
-	mRigidBody.mPhysicsState = physicsState;
-
-	if (physicsState == RigidBody::DYNAMIC && oldState == RigidBody::KINEMATIC ||
-		physicsState == RigidBody::KINEMATIC && oldState == RigidBody::DYNAMIC)
-	{
-		UpdateKinematic(physicsState == RigidBody::KINEMATIC);
-		return;
-	}
-
-	//Release the previous actor
-	if (mRigidActor != nullptr)
-	{
-		mRigidActor->release();
-	}
-
 	PxTransform pxTranform(GLMVec3(transform.position), GLMQuat(transform.quaternionRotation));
 
-	if (physicsState == RigidBody::STATIC)
+	if (mRigidBody.mPhysicsState == RigidBody::STATIC)
 	{
 		mRigidActor = PhysX_Engine::gPhysics->createRigidStatic(pxTranform);
 	}
-	else if (physicsState == RigidBody::DYNAMIC)
+	else if (mRigidBody.mPhysicsState == RigidBody::DYNAMIC)
 	{
 		mRigidActor = PhysX_Engine::gPhysics->createRigidDynamic(pxTranform);
 
 	}
-	else if (physicsState == RigidBody::KINEMATIC)
+	else if (mRigidBody.mPhysicsState == RigidBody::KINEMATIC)
 	{
 		mRigidActor = PhysX_Engine::gPhysics->createRigidDynamic(pxTranform);
 		UpdateKinematic(true);
 	}
 
-	//((PxRigidDynamic*)mRigidActor)->setRigidBodyFlag(PxRigidBodyFlag::eENABLE_CCD, true);
+
+	PxShape* shape = PhysX_Engine::gPhysics->createShape(*mColliderShape->mGeometry, *PhysX_Engine::gDefaultMaterial);
+	mRigidActor->attachShape(*shape);
+	mColliderShape->mColliderShape = &(*shape);
+
+	PhysX_Engine::gScene->addActor(*mRigidActor);
+	mRigidActor->userData = this;
+	mRigidBody.Initialize(this);
+
+	mColliderShape->OnAddedToScene();
 
 	//((PxRigidDynamic*)mRigidActor)->setRigidBodyFlag(PxRigidBodyFlag::eENABLE_CCD, true);
 }
@@ -109,11 +99,7 @@ void PhysX_Object::UpdateColliderShape(BaseColliderShape::eColliderShape collide
 
 	mColliderShape->InitializeGeometry(this);
 
-	PxShape* shape = PhysX_Engine::gPhysics->createShape(*mColliderShape->mGeometry, *PhysX_Engine::gDefaultMaterial);
-	mRigidActor->attachShape(*shape);
 	//shape->release();
-
-	mColliderShape->mColliderShape = &(*shape);
 
 }
 
