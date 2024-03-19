@@ -396,3 +396,15 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+
+#lib files
+!PhysX_Physics/
+PhysX_Physics/*
+!PhysX_Physics/x64/
+PhysX_Physics/x64/*
+!PhysX_Physics/x64/Debug/
+PhysX_Physics/x64/Debug/*
+!PhysX_Physics/x64/Debug/PhysX_Physics.lib
+!PhysX_Physics/x64/Release/
+PhysX_Physics/x64/Release/*
+!PhysX_Physics/x64/Release/PhysX_Physics.lib
