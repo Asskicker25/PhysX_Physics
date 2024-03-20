@@ -26,9 +26,10 @@ void SceneOne::Start()
 	sphere->LoadModel("res/Models/DefaultSphere.fbx");
 	sphere->transform.SetPosition(glm::vec3(0.5f, 10, 0));
 	sphere->transform.SetScale(glm::vec3(0.5f));
-	sphere->Initialize(RigidBody::DYNAMIC, BaseColliderShape::SPHERE);
+	sphere->Initialize(RigidBody::KINEMATIC, BaseColliderShape::SPHERE);
 	sphere->mRigidBody.SetMass(10);
 	sphere->name = "Sphere";
+	//sphere->layer = (int)Layer::Entity_Layer::RAYCAST;
 	sphere->mColliderShape->AsSphere()->SetRadius(2);
 
 	PhysX_Object* plane = new PhysX_Object();

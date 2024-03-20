@@ -3,8 +3,9 @@
 #include <vector>
 #include <glm/glm.hpp>
 
-struct CollisionInfo
+class CollisionInfo
 {
-	std::vector<glm::vec3> mListOfCollisionPts;
+public:
+	std::vector<glm::vec3> mListOfCollisionPoints;
 };
 

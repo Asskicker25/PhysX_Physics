@@ -109,8 +109,6 @@ void PhysX_Object::UpdateColliderShape(BaseColliderShape::eColliderShape collide
 
 }
 
-
-
 void PhysX_Object::SetVelocity(glm::vec3 velocity)
 {
 	if (mRigidBody.mPhysicsState == RigidBody::DYNAMIC)
@@ -138,3 +136,12 @@ glm::vec3 PhysX_Object::GetVelocity()
 	return glm::vec3(0);
 }
 
+void PhysX_Object::OnCollisionEnter(PhysX_Object* other, const CollisionInfo& collisionInfo)
+{
+	printf("Collision Enter\n");
+}
+
+void PhysX_Object::OnCollisionExit(PhysX_Object* other)
+{
+	printf("Collision Exit\n");
+}

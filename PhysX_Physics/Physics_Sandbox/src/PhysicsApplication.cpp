@@ -2,13 +2,23 @@
 
 #include <Graphics/Scene/SceneManager.h>
 #include <Graphics/Panels/EditorLayout.h>
+#include <Graphics/Panels/ImguiDrawUtils.h>
 
 #include "Scenes/SceneOne.h"
+#include "AppSettings.h"
 
 using namespace Scene;
 
 void PhysicsApplication::SetUp()
 {
+	Entity::OnLayerDraw = [this](Entity* entity)
+		{
+			if (ImGuiUtils::DrawDropDown("Layer", entity->layer, Layer::LayerStrings, Layer::LayerCount, false))
+			{
+				entity->OnLayerChanged();
+			}
+		};
+
 	PhysX_Engine::GetInstance().Initialize();
 
 	viewportCamera->InitializeCamera(PERSPECTIVE, windowWidth, windowHeight, 0.1f, 100.0f, 45.0f);

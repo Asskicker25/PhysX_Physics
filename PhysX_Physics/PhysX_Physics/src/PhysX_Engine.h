@@ -59,10 +59,11 @@ public:
 
 	bool mApplicationStarted = false;
 
+	std::vector<PhysX_Object*> mListOfPhysicObjects;
+
 private:
 
 	void UpdateRender();
 
-	std::vector<PhysX_Object*> mListOfPhysicObjects;
 };
 

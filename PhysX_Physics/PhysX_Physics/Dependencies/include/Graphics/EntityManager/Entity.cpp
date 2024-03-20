@@ -2,6 +2,10 @@
 #include "EntityManager.h"
 #include "../Panels/EditorLayout.h"
 
+#include "../Panels/ImguiDrawUtils.h"
+
+std::function<void(Entity*)> Entity::OnLayerDraw = nullptr;
+
 void Entity::InitializeEntity(Entity* entity)
 {
 	EntityManager::GetInstance().AddEntity(entity);
@@ -29,8 +33,23 @@ void Entity::OnSceneDraw()
 void Entity::OnPropertyDraw()
 {
 	ImGui::InputText("##ObjectName", &name[0], 516);
-	ImGui::SameLine();
+
 	ImGui::InputText("##Tag", &tag[0], 516);
+	ImGui::SameLine();
+
+	if (OnLayerDraw == nullptr)
+	{
+		if (ImGuiUtils::DrawInt("Layer", layer, false))
+		{
+			OnLayerChanged();
+		}
+	}
+	else
+	{
+		OnLayerDraw(this);
+	}
+	//ImGuiUtils::DrawDropDown("Layer", layer, Layer::LayerStrings, Layer::LayerCount, false);
+
 	transform.OnPropertyDraw();
 }
 

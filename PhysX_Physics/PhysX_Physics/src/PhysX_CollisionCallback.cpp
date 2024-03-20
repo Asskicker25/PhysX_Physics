@@ -4,6 +4,8 @@
 
 #include "GLMToPhysX.h"
 
+CollisionInfo PhysX_CollisionCallback::mCollisionInfo;
+
 void PhysX_CollisionCallback::onConstraintBreak(PxConstraintInfo* constraints, PxU32 count)
 {
 	printf("Constraint Break\n");
@@ -21,7 +23,7 @@ void PhysX_CollisionCallback::onSleep(PxActor** actors, PxU32 count)
 
 void PhysX_CollisionCallback::onContact(const PxContactPairHeader& pairHeader, const PxContactPair* pairs, PxU32 nbPairs)
 {
-	CollisionInfo collisionInfo;
+	mCollisionInfo.mListOfCollisionPoints.clear();
 
 	PhysX_Object* collidedActor = (PhysX_Object*)pairHeader.actors[0]->userData;
 	PhysX_Object* otherActor = (PhysX_Object*)pairHeader.actors[1]->userData;
@@ -34,11 +36,12 @@ void PhysX_CollisionCallback::onContact(const PxContactPairHeader& pairHeader, c
 		if (contactCount)
 		{
 			contactPoints.resize(contactCount);
+			mCollisionInfo.mListOfCollisionPoints.reserve(contactCount);
 			pairs[i].extractContacts(&contactPoints[0], contactCount);
 
 			for (PxU32 j = 0; j < contactCount; j++)
 			{
-				collisionInfo.mListOfCollisionPts.push_back(PxVec3ToGLM(contactPoints[j].position));
+				mCollisionInfo.mListOfCollisionPoints.push_back((PxVec3ToGLM(contactPoints[j].position)));
 			}
 		}
 
@@ -49,8 +52,8 @@ void PhysX_CollisionCallback::onContact(const PxContactPairHeader& pairHeader, c
 		const PxContactPair& pair = pairs[i];
 		if (pair.flags & PxContactPairFlag::eACTOR_PAIR_HAS_FIRST_TOUCH)
 		{
-			collidedActor->OnCollisionEnter(otherActor, collisionInfo);
-			otherActor->OnCollisionEnter(collidedActor, collisionInfo);
+			collidedActor->OnCollisionEnter(otherActor,mCollisionInfo);
+			otherActor->OnCollisionEnter(collidedActor, mCollisionInfo);
 		}
 		else if (pair.flags & PxContactPairFlag::eACTOR_PAIR_LOST_TOUCH)
 		{

@@ -3,6 +3,8 @@
 #include "../Object.h"
 #include "../Transform.h"
 
+#include <functional>
+
 class EntityManager;
 
 class Entity : public Object
@@ -19,6 +21,7 @@ public:
 
 	virtual void OnPropertyDraw();
 	virtual void OnSceneDraw();
+	virtual void OnLayerChanged() {};
 
 	virtual void Destroy();
 
@@ -28,7 +31,11 @@ public:
 	std::string tag = "Untagged";
 	std::string name = "UnNamed";
 
+	int layer = 0;
+
 	bool isStartInvoked = false;
+
+	static std::function<void(Entity*)> OnLayerDraw;
 
 };
 

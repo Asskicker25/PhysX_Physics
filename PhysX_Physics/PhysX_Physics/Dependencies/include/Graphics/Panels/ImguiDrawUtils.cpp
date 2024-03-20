@@ -187,16 +187,20 @@ namespace ImGuiUtils
 		return updated;
 	}
 
-	bool DrawInt(std::string label, int& value)
+	bool DrawInt(std::string label, int& value, bool showLabel)
 	{
 		bool updated = false;
 
 		ImGui::PushID(label.c_str());
 
-		ImGui::Columns(2);
-		ImGui::SetColumnWidth(0, 150);
-		ImGui::Text(label.c_str());
-		ImGui::NextColumn();
+		if (showLabel)
+		{
+			ImGui::Columns(2);
+			ImGui::SetColumnWidth(0, 150);
+			ImGui::Text(label.c_str());
+			ImGui::NextColumn();
+		}
+		
 
 		if (ImGui::InputInt(("###" + label).c_str(), &value, 0, 0))
 		{
@@ -235,16 +239,19 @@ namespace ImGuiUtils
 	}
 
 
-	bool DrawDropDown(std::string label, int& currentItem, const char* const* items, int size)
+	bool DrawDropDown(std::string label, int& currentItem, const char* const* items, int size , bool showLabel)
 	{
 		bool updated = false;
 		ImGui::PushID(label.c_str());
 
-		ImGui::Columns(2);
-		ImGui::SetColumnWidth(0, 150);
-		ImGui::Text(label.c_str());
-		ImGui::NextColumn();
-
+		if (showLabel)
+		{
+			ImGui::Columns(2);
+			ImGui::SetColumnWidth(0, 150);
+			ImGui::Text(label.c_str());
+			ImGui::NextColumn();
+		}
+		
 		if(ImGui::Combo(("###" + label).c_str(), &currentItem, items, size))
 		{
 			updated = true;

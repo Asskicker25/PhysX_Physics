@@ -1,12 +1,15 @@
 #pragma once
 
 #include <PhysX/PxPhysicsAPI.h>
+#include "CollisionInfo.h"
 
 using namespace physx;
 
 class PhysX_CollisionCallback : public PxSimulationEventCallback
 {
 public:
+
+	static CollisionInfo mCollisionInfo;
 
 	// Inherited via PxSimulationEventCallback
 	void onConstraintBreak(PxConstraintInfo* constraints, PxU32 count) override;

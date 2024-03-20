@@ -101,6 +101,8 @@ void PhysX_Engine::AddPhysicsObject(PhysX_Object* phyObj)
 {
 	if (mApplicationStarted)
 	{
+		mListOfPhysicObjects.push_back(phyObj);
+
 		phyObj->InitializeRigidActor();
 	}
 	else

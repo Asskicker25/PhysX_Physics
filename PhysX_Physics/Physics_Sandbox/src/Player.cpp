@@ -3,6 +3,10 @@
 #include <Graphics/InputManager/InputManager.h>
 #include <Shapes/CapsuleCollider.h>
 
+#include <PhysicsUtils.h>
+
+#include "AppSettings.h"
+
 Player::Player()
 {
 	name = "Player";
@@ -10,8 +14,8 @@ Player::Player()
 	transform.SetPosition(glm::vec3(0, 2, 0));
 	transform.SetRotation(glm::vec3(0, 0, 0));
 	transform.SetScale(glm::vec3(1, 2, 1));
-	Initialize(RigidBody::DYNAMIC, BaseColliderShape::CAPSULE);
-	mColliderShape->AsCapsule()->mHeight = 4;
+	Initialize(RigidBody::KINEMATIC, BaseColliderShape::BOX);
+	//mColliderShape->AsCapsule()->mHeight = 4;
 
 	mColliderShape->SetTriggerState(false);
 
@@ -19,12 +23,17 @@ Player::Player()
 
 void Player::Update(float deltaTime)
 {
-	return;
+	//return;
+	RayHitInfo info;
+	if (Raycast(transform.position, transform.GetUp(), 10, info, { (int)Layer::Entity_Layer::RAYCAST }))
+	{
+		printf("Sphere Hit\n");
+	}
 
 	mMoveDir.x = InputManager::GetInstance().GetAxisX();
 	mMoveDir.z = InputManager::GetInstance().GetAxisY();
 
-	SetVelocity(mMoveDir * mSpeed );
+	SetVelocity(mMoveDir * mSpeed);
 
 }
 
@@ -38,10 +47,11 @@ void Player::OnTriggerExit(PhysX_Object* other)
 	printf("Player Trigger Exit With : %s\n", other->name.c_str());
 }
 
-void Player::OnCollisionEnter(PhysX_Object* other, CollisionInfo collisionInfo)
+void Player::OnCollisionEnter(PhysX_Object* other, const CollisionInfo& collisionInfo)
 {
-	glm::vec3 point = collisionInfo.mListOfCollisionPts[0];
+	glm::vec3 point = collisionInfo.mListOfCollisionPoints[0];
 	printf("Player Collision Enter With : %s at %.1f,%.1f,%.1f\n", other->name.c_str(), point.x, point.y, point.z);
+
 }
 
 void Player::OnCollisionExit(PhysX_Object* other)
