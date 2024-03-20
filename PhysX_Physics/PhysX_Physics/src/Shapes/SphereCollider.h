@@ -14,9 +14,8 @@ public:
 	void InitializeGeometry(PhysX_Object* phyObj) override;
 	void UpdateGeometry(const PxGeometry& geometry) override;
 	void DrawShape() override;
-
+	PxGeometry* GetGeometry() override;
 	virtual void DrawShapeProperty();
-
 
 	void SetRadius(float radius);
 

@@ -39,6 +39,9 @@
     <ClInclude Include="src\PhysX_CollisionCallback.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Shapes\CapsuleCollider.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="src\CollisionInfo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -78,6 +81,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\CollisionInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Shapes\CapsuleCollider.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

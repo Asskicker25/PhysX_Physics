@@ -19,7 +19,7 @@ void SceneOne::Start()
 
 	Light* dirLight = new Light();
 	dirLight->transform.SetScale(glm::vec3(0.1f));
-	dirLight->transform.SetPosition(glm::vec3(0, 0, 3));
+	dirLight->transform.SetRotation(glm::vec3(0, -100, -36));
 	dirLight->InitializeLight(Directional);
 
 	PhysX_Object* sphere = new PhysX_Object();

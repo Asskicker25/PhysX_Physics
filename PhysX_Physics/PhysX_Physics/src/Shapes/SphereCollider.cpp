@@ -13,8 +13,13 @@ void SphereCollider::InitializeGeometry(PhysX_Object* phyObj)
 
 	float radius = PxMin(PxMin(halfDiagonal.x, halfDiagonal.y), halfDiagonal.z);
 
-	mGeometry = new PxSphereGeometry();
+	mSphereGeometry = new PxSphereGeometry();
 	SetRadius(radius);
+}
+
+PxGeometry* SphereCollider::GetGeometry()
+{
+	return mSphereGeometry;
 }
 
 void SphereCollider::UpdateGeometry(const PxGeometry& geometry)
@@ -27,6 +32,8 @@ void SphereCollider::DrawShape()
 	Renderer::GetInstance().DrawSphere(mModelTransform->position, mRadius, PhysX_Engine::GetInstance().gColliderColor);
 }
 
+
+
 void SphereCollider::DrawShapeProperty()
 {
 	if (ImGuiUtils::DrawFloat("Radius", mRadius))
@@ -38,5 +45,5 @@ void SphereCollider::DrawShapeProperty()
 void SphereCollider::SetRadius(float radius)
 {
 	mRadius = radius;
-	((PxSphereGeometry*)mGeometry)->radius = radius;
+	mSphereGeometry->radius = radius;
 }

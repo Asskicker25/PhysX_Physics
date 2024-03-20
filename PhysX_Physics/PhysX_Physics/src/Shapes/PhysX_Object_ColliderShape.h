@@ -7,6 +7,8 @@ using namespace physx;
 
 class SphereCollider;
 class BoxCollider;
+class CapsuleCollider;
+
 class PhysX_Object;
 
 class BaseColliderShape
@@ -25,19 +27,21 @@ public:
 	eColliderShape mShape = eColliderShape::SPHERE;
 
 	PxShape* mColliderShape = nullptr;
-	PxGeometry* mGeometry = nullptr;
 
 	SphereCollider* AsSphere();
 	BoxCollider* AsBox();
+	CapsuleCollider* AsCapsule();
+
+	virtual PxGeometry* GetGeometry() = 0;
 
 	virtual void InitializeGeometry(PhysX_Object* phyObj);
 	virtual void OnAddedToScene();
 	virtual void UpdateGeometry(const PxGeometry& geometry) = 0;
 	virtual void DrawShape();
 	virtual void DrawShapeProperty() {};
-
+	virtual glm::quat GetRotation();
+	virtual glm::vec3 GetRotationOffset();
 	void DrawProperty();
-
 	void SetTriggerState(bool isTrigger = true);
 
 protected:

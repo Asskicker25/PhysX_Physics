@@ -12,7 +12,8 @@ void PhysicsApplication::SetUp()
 	PhysX_Engine::GetInstance().Initialize();
 
 	viewportCamera->InitializeCamera(PERSPECTIVE, windowWidth, windowHeight, 0.1f, 100.0f, 45.0f);
-	viewportCamera->transform.SetPosition(glm::vec3(0, 0, 40));
+	viewportCamera->transform.SetPosition(glm::vec3(-16, 10, 16));
+	viewportCamera->transform.SetRotation(glm::vec3(-20, -47, 0));
 	viewportCamera->applyPostProcessing = true;
 
 	EditorLayout::GetInstance().SetMaximizeState(false);

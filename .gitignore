@@ -398,8 +398,6 @@ FodyWeavers.xsd
 *.sln.iml
 
 #lib files
-!PhysX_Physics/
-PhysX_Physics/*
 !PhysX_Physics/x64/
 PhysX_Physics/x64/*
 !PhysX_Physics/x64/Debug/

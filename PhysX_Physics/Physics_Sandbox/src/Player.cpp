@@ -1,14 +1,17 @@
 #include "Player.h"
 
 #include <Graphics/InputManager/InputManager.h>
+#include <Shapes/CapsuleCollider.h>
 
 Player::Player()
 {
 	name = "Player";
 	LoadModel("res/Models/DefaultCube.fbx");
-	transform.SetPosition(glm::vec3(0, 1, 0));
+	transform.SetPosition(glm::vec3(0, 2, 0));
 	transform.SetRotation(glm::vec3(0, 0, 0));
-	Initialize(RigidBody::KINEMATIC, BaseColliderShape::BOX);
+	transform.SetScale(glm::vec3(1, 2, 1));
+	Initialize(RigidBody::DYNAMIC, BaseColliderShape::CAPSULE);
+	mColliderShape->AsCapsule()->mHeight = 4;
 
 	mColliderShape->SetTriggerState(false);
 

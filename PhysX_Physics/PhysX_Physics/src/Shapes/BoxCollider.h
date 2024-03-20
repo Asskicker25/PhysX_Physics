@@ -10,6 +10,7 @@ public:
 	// Inherited via BaseColliderShape
 	void InitializeGeometry(PhysX_Object* phyObj) override;
 	void UpdateGeometry(const PxGeometry& geometry) override;
+	PxGeometry* GetGeometry() override;
 	virtual void DrawShape();
 
 };

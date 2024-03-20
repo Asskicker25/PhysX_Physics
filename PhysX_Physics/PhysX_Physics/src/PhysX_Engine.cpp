@@ -160,7 +160,7 @@ void PhysX_Engine::UpdateRender()
 
 		if (phyObj->mRigidBody.mPhysicsState == RigidBody::KINEMATIC)
 		{
-			((PxRigidDynamic*)actor)->setKinematicTarget(PxTransform(GLMVec3(phyObj->transform.position), GLMQuat(phyObj->transform.quaternionRotation)));
+			((PxRigidDynamic*)actor)->setKinematicTarget(PxTransform(GLMVec3(phyObj->transform.position), GLMQuat(phyObj->mColliderShape->GetRotation())));
 			continue;
 		}
 
@@ -188,7 +188,10 @@ void PhysX_Engine::UpdateRender()
 
 
 		phyObj->transform.SetPosition(actorPos);
-		phyObj->transform.SetQuatRotation(actorRot);
+
+		glm::vec3 rotation = glm::degrees(glm::eulerAngles(actorRot));
+		rotation -= phyObj->mColliderShape->GetRotationOffset();
+		phyObj->transform.SetRotation(rotation);
 	}
 
 }

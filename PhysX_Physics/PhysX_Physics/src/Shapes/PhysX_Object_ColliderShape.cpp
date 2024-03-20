@@ -1,6 +1,8 @@
 #include "PhysX_Object_ColliderShape.h"
 #include "SphereCollider.h"
 #include "BoxCollider.h"
+#include "CapsuleCollider.h"
+
 #include "../PhysX_Engine.h"
 #include "../PhysX_Object.h"
 
@@ -17,6 +19,11 @@ SphereCollider* BaseColliderShape::AsSphere()
 BoxCollider* BaseColliderShape::AsBox()
 {
 	return (BoxCollider*)this;
+}
+
+CapsuleCollider* BaseColliderShape::AsCapsule()
+{
+	return (CapsuleCollider*)this;
 }
 
 void BaseColliderShape::InitializeGeometry(PhysX_Object* phyObj)
@@ -53,6 +60,16 @@ void BaseColliderShape::DrawShape()
 	aabb.max += mModelTransform->position;
 
 	Renderer::GetInstance().DrawAABB(aabb, PhysX_Engine::gColliderColor, false);
+}
+
+glm::quat BaseColliderShape::GetRotation()
+{
+	return mModelTransform->quaternionRotation;
+}
+
+glm::vec3 BaseColliderShape::GetRotationOffset()
+{
+	return glm::vec3(0);
 }
 
 void BaseColliderShape::DrawProperty()

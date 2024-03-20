@@ -5,6 +5,7 @@
 
 #include "Shapes/SphereCollider.h"
 #include "Shapes/BoxCollider.h"
+#include "Shapes/CapsuleCollider.h"
 
 
 
@@ -30,7 +31,7 @@ void PhysX_Object::Render()
 void PhysX_Object::InitializeRigidActor()
 {
 	//Return if no change in state
-	PxTransform pxTranform(GLMVec3(transform.position), GLMQuat(transform.quaternionRotation));
+	PxTransform pxTranform(GLMVec3(transform.position), GLMQuat(mColliderShape->GetRotation()));
 
 	if (mRigidBody.mPhysicsState == RigidBody::STATIC)
 	{
@@ -48,7 +49,7 @@ void PhysX_Object::InitializeRigidActor()
 	}
 
 
-	PxShape* shape = PhysX_Engine::gPhysics->createShape(*mColliderShape->mGeometry, *PhysX_Engine::gDefaultMaterial);
+	PxShape* shape = PhysX_Engine::gPhysics->createShape(*mColliderShape->GetGeometry(), *PhysX_Engine::gDefaultMaterial);
 	mRigidActor->attachShape(*shape);
 	mColliderShape->mColliderShape = &(*shape);
 
@@ -57,6 +58,8 @@ void PhysX_Object::InitializeRigidActor()
 	mRigidBody.Initialize(this);
 
 	mColliderShape->OnAddedToScene();
+
+	mRigidActor->setGlobalPose(pxTranform,true);
 
 	//((PxRigidDynamic*)mRigidActor)->setRigidBodyFlag(PxRigidBodyFlag::eENABLE_CCD, true);
 }
@@ -91,6 +94,9 @@ void PhysX_Object::UpdateColliderShape(BaseColliderShape::eColliderShape collide
 
 	case BaseColliderShape::BOX:
 		mColliderShape = new BoxCollider();
+		break;
+	case BaseColliderShape::CAPSULE:
+		mColliderShape = new CapsuleCollider();
 		break;
 	default: 
 		mColliderShape = new SphereCollider();

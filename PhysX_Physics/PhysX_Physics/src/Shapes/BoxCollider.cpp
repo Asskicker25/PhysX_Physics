@@ -7,12 +7,16 @@ void BoxCollider::InitializeGeometry(PhysX_Object* phyObj)
 {
 	BaseColliderShape::InitializeGeometry(phyObj);
 
-	mGeometry = new PxBoxGeometry();
-	mBoxGeometry = (PxBoxGeometry*)mGeometry;
+	mBoxGeometry = new PxBoxGeometry();
 
 	mBoxGeometry->halfExtents.x = (mModelAABB.maximum.x - mModelAABB.minimum.x) * 0.5f;
 	mBoxGeometry->halfExtents.y = (mModelAABB.maximum.y - mModelAABB.minimum.y) * 0.5f;
 	mBoxGeometry->halfExtents.z = (mModelAABB.maximum.z - mModelAABB.minimum.z) * 0.5f;
+}
+
+PxGeometry* BoxCollider::GetGeometry()
+{
+	return mBoxGeometry;
 }
 
 void BoxCollider::UpdateGeometry(const PxGeometry& geometry)
