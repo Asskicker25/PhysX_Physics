@@ -6,6 +6,7 @@
 #include "Shapes/SphereCollider.h"
 #include "Shapes/BoxCollider.h"
 #include "Shapes/CapsuleCollider.h"
+#include "Shapes/MeshCollider.h"
 
 
 
@@ -48,7 +49,6 @@ void PhysX_Object::InitializeRigidActor()
 		UpdateKinematic(true);
 	}
 
-
 	PxShape* shape = PhysX_Engine::gPhysics->createShape(*mColliderShape->GetGeometry(), *PhysX_Engine::gDefaultMaterial);
 	mRigidActor->attachShape(*shape);
 	mColliderShape->mColliderShape = &(*shape);
@@ -59,7 +59,7 @@ void PhysX_Object::InitializeRigidActor()
 
 	mColliderShape->OnAddedToScene();
 
-	mRigidActor->setGlobalPose(pxTranform,true);
+	mRigidActor->setGlobalPose(pxTranform, true);
 
 	//((PxRigidDynamic*)mRigidActor)->setRigidBodyFlag(PxRigidBodyFlag::eENABLE_CCD, true);
 }
@@ -98,7 +98,10 @@ void PhysX_Object::UpdateColliderShape(BaseColliderShape::eColliderShape collide
 	case BaseColliderShape::CAPSULE:
 		mColliderShape = new CapsuleCollider();
 		break;
-	default: 
+	case BaseColliderShape::MESH:
+		mColliderShape = new MeshCollider();
+		break;
+	default:
 		mColliderShape = new SphereCollider();
 		break;
 	}

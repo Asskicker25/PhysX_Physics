@@ -8,6 +8,7 @@ using namespace physx;
 class SphereCollider;
 class BoxCollider;
 class CapsuleCollider;
+class MeshCollider;
 
 class PhysX_Object;
 
@@ -31,6 +32,7 @@ public:
 	SphereCollider* AsSphere();
 	BoxCollider* AsBox();
 	CapsuleCollider* AsCapsule();
+	MeshCollider* AsMesh();
 
 	virtual PxGeometry* GetGeometry() = 0;
 

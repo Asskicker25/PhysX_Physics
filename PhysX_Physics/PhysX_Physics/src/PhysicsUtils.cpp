@@ -28,6 +28,11 @@ bool Raycast(glm::vec3 startPos, glm::vec3 rayDir, float maxDistance, RayHitInfo
 			PxHitFlag::eDEFAULT | PxHitFlag::eNORMAL | PxHitFlag::eANY_HIT | PxHitFlag::ePOSITION,
 			100, &rayHit))
 		{
+			hitInfo.mPhyObj = phyObj;
+			hitInfo.mDistance = rayHit.distance;
+			hitInfo.mPoint = PxVec3ToGLM(rayHit.position);
+			hitInfo.mNormal = PxVec3ToGLM(rayHit.normal);
+
 			return true;
 		}
 

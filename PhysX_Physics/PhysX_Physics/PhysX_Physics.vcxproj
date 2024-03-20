@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Shapes\MeshCollider.h" />
     <ClInclude Include="src\CollisionInfo.h" />
     <ClInclude Include="src\PhysicsUtils.h" />
     <ClInclude Include="src\Shapes\CapsuleCollider.h" />
@@ -32,6 +33,7 @@
     <ClInclude Include="src\ShapeUtils.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Shapes\MeshCollider.cpp" />
     <ClCompile Include="src\PhysicsUtils.cpp" />
     <ClCompile Include="src\Shapes\CapsuleCollider.cpp" />
     <ClCompile Include="src\CollisionInfo.cpp" />

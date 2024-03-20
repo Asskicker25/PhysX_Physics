@@ -11,7 +11,7 @@ void SceneOne::Start()
 {
 	GameCamera* mainCamera = new GameCamera();
 	mainCamera->name = "MainCamera";
-	mainCamera->InitializeCamera(PERSPECTIVE, GAME_RESOLUTION_WIDTH, GAME_RESOLUTION_HEIGHT, 0.1f, 100.0f, 45.0f);
+	mainCamera->InitializeCamera(PERSPECTIVE, GAME_RESOLUTION_WIDTH, GAME_RESOLUTION_HEIGHT, 0.1f, 500.0f, 45.0f);
 	mainCamera->transform.SetPosition(glm::vec3(0, 0, 10));
 	mainCamera->applyPostProcessing = true;
 	mainCamera->postProcessing->bloom.isEnabled = true;
@@ -32,12 +32,23 @@ void SceneOne::Start()
 	//sphere->layer = (int)Layer::Entity_Layer::RAYCAST;
 	sphere->mColliderShape->AsSphere()->SetRadius(2);
 
-	PhysX_Object* plane = new PhysX_Object();
+	/*PhysX_Object* plane = new PhysX_Object();
 	plane->LoadModel("res/Models/DefaultCube.fbx");
 	plane->transform.SetPosition(glm::vec3(0.0f, -0.15f, 0));
 	plane->transform.SetScale(glm::vec3(20, 0.1f, 20));
-	plane->Initialize(RigidBody::STATIC, BaseColliderShape::BOX);
-	plane->name = "Plane";
+	plane->Initialize(RigidBody::STATIC, BaseColliderShape::MESH);
+	plane->name = "Plane";*/
+	
+	
+	PhysX_Object* terrain = new PhysX_Object();
+	terrain->OnModelLoaded = [this](Model* self)
+		{
+			((PhysX_Object*)self)->Initialize(RigidBody::STATIC, BaseColliderShape::MESH);
+		};
+	terrain->LoadModelAsync("Assets/Terrain.ply");
+	terrain->transform.SetPosition(glm::vec3(30.0f, -14.0f, -9));
+	terrain->transform.SetScale(glm::vec3(0.2f, 0.2f, 0.2f));
+	terrain->name = "Terrain";
 
 	/*PhysX_Object* sphere2 = new PhysX_Object();
 	sphere2->CopyFromModel(*sphere,true);

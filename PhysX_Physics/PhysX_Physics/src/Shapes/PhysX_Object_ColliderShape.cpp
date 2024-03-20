@@ -2,6 +2,7 @@
 #include "SphereCollider.h"
 #include "BoxCollider.h"
 #include "CapsuleCollider.h"
+#include "MeshCollider.h"
 
 #include "../PhysX_Engine.h"
 #include "../PhysX_Object.h"
@@ -24,6 +25,11 @@ BoxCollider* BaseColliderShape::AsBox()
 CapsuleCollider* BaseColliderShape::AsCapsule()
 {
 	return (CapsuleCollider*)this;
+}
+
+MeshCollider* BaseColliderShape::AsMesh()
+{
+	return (MeshCollider*)this;
 }
 
 void BaseColliderShape::InitializeGeometry(PhysX_Object* phyObj)

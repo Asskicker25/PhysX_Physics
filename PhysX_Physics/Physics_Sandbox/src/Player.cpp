@@ -14,7 +14,7 @@ Player::Player()
 	transform.SetPosition(glm::vec3(0, 2, 0));
 	transform.SetRotation(glm::vec3(0, 0, 0));
 	transform.SetScale(glm::vec3(1, 2, 1));
-	Initialize(RigidBody::KINEMATIC, BaseColliderShape::BOX);
+	Initialize(RigidBody::KINEMATIC, BaseColliderShape::CAPSULE);
 	//mColliderShape->AsCapsule()->mHeight = 4;
 
 	mColliderShape->SetTriggerState(false);
@@ -27,7 +27,7 @@ void Player::Update(float deltaTime)
 	RayHitInfo info;
 	if (Raycast(transform.position, transform.GetUp(), 10, info, { (int)Layer::Entity_Layer::RAYCAST }))
 	{
-		printf("Sphere Hit\n");
+		printf("Sphere Hit At : %.1f, %.1f, %.1f \n ", info.mPoint.x, info.mPoint.y, info.mPoint.z);
 	}
 
 	mMoveDir.x = InputManager::GetInstance().GetAxisX();
