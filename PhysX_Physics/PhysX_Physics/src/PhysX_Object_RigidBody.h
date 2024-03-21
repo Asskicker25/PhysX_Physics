@@ -17,7 +17,9 @@ public:
 	void Initialize(PhysX_Object* phyObj);
 	void DrawProperty();
 	void SetMass(float mass);
+	void SetGravityState(bool enabled);
 
+	bool mUseGravity = true;
 	float mMass = 1;
 	ePhysicsState mPhysicsState = ePhysicsState::NONE;
 

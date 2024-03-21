@@ -9,6 +9,7 @@ void RigidBody::Initialize(PhysX_Object* phyObj)
 	mPhyObj = phyObj;
 
 	SetMass(mMass);
+	SetGravityState(mUseGravity);
 }
 
 void RigidBody::DrawProperty()
@@ -19,10 +20,16 @@ void RigidBody::DrawProperty()
 		return;
 	}
 
+	if (ImGuiUtils::DrawBool("UseGravity", mUseGravity))
+	{
+		SetGravityState(mUseGravity);
+	}
+
 	if (ImGuiUtils::DrawFloat("Mass", mMass))
 	{
 		SetMass(mMass);
 	}
+
 
 	ImGui::TreePop();
 }
@@ -35,3 +42,15 @@ void RigidBody::SetMass(float mass)
 		((PxRigidDynamic*)mPhyObj->mRigidActor)->setMass(mMass);
 	}
 }
+
+void RigidBody::SetGravityState(bool enabled)
+{
+	mUseGravity = enabled;
+
+	if (mPhysicsState == DYNAMIC && mPhyObj != nullptr)
+	{
+		mPhyObj->mRigidActor->setActorFlag(PxActorFlag::eDISABLE_GRAVITY, (!mUseGravity));
+		((PxRigidDynamic*)mPhyObj->mRigidActor)->wakeUp();
+	}
+}
+

@@ -54,11 +54,11 @@ void PhysX_Object::InitializeRigidActor()
 	mColliderShape->mColliderShape = &(*shape);
 
 	PhysX_Engine::gScene->addActor(*mRigidActor);
+
 	mRigidActor->userData = this;
 	mRigidBody.Initialize(this);
 
 	mColliderShape->OnAddedToScene();
-
 	mRigidActor->setGlobalPose(pxTranform, true);
 
 	//((PxRigidDynamic*)mRigidActor)->setRigidBodyFlag(PxRigidBodyFlag::eENABLE_CCD, true);
