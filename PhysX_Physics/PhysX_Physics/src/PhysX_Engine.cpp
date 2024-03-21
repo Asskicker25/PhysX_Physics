@@ -188,12 +188,61 @@ void PhysX_Engine::UpdateRender()
 		actorPos /= nbShapes;
 		actorRot /= nbShapes;
 
+		glm::vec3 rotation = glm::degrees(glm::eulerAngles(actorRot));
+		glm::vec3 offsetRot = phyObj->mColliderShape->GetRotationOffset();
+
+		if (phyObj->mRigidBody.mPhysicsState == RigidBody::DYNAMIC)
+		{
+
+			if (phyObj->mRigidBody.mRotationConstraints.X)
+			{
+				rotation.x = phyObj->transform.rotation.x;
+			}
+			else
+			{
+				rotation.x -= offsetRot.x;
+			}
+
+			if (phyObj->mRigidBody.mRotationConstraints.Y)
+			{
+				rotation.y = phyObj->transform.rotation.y;
+			}
+			else
+			{
+				rotation.y -= offsetRot.y;
+			}
+
+			if (phyObj->mRigidBody.mRotationConstraints.Z)
+			{
+				rotation.z = phyObj->transform.rotation.z;
+			}
+			else
+			{
+				rotation.z -= offsetRot.z;
+			}
+
+			if (phyObj->mRigidBody.mPositionConstraints.X)
+			{
+				actorPos.x = phyObj->transform.position.x;
+			}
+
+			if (phyObj->mRigidBody.mPositionConstraints.Y)
+			{
+				actorPos.y = phyObj->transform.position.y;
+			}
+
+			if (phyObj->mRigidBody.mPositionConstraints.Z)
+			{
+				actorPos.z = phyObj->transform.position.z;
+			}
+		}
+
 
 		phyObj->transform.SetPosition(actorPos);
-
-		glm::vec3 rotation = glm::degrees(glm::eulerAngles(actorRot));
-		rotation -= phyObj->mColliderShape->GetRotationOffset();
 		phyObj->transform.SetRotation(rotation);
+
+		((PxRigidDynamic*)actor)->setGlobalPose(PxTransform(GLMVec3(phyObj->transform.position), GLMQuat(phyObj->mColliderShape->GetRotation())));
+
 	}
 
 }

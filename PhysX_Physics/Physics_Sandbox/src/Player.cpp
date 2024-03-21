@@ -14,7 +14,9 @@ Player::Player()
 	transform.SetPosition(glm::vec3(0, 2, 0));
 	transform.SetRotation(glm::vec3(0, 0, 0));
 	transform.SetScale(glm::vec3(1, 2, 1));
-	Initialize(RigidBody::KINEMATIC, BaseColliderShape::CAPSULE);
+	Initialize(RigidBody::DYNAMIC, BaseColliderShape::CAPSULE);
+	mRigidBody.mRotationConstraints = RigidBody::AxisConstraints(true, true, true);
+	mRigidBody.mPositionConstraints = RigidBody::AxisConstraints(true, false, true);
 	//mColliderShape->AsCapsule()->mHeight = 4;
 
 	mColliderShape->SetTriggerState(false);
@@ -23,7 +25,7 @@ Player::Player()
 
 void Player::Update(float deltaTime)
 {
-	//return;
+	return;
 	RayHitInfo info;
 	if (Raycast(transform.position, transform.GetUp(), 10, info, { (int)Layer::Entity_Layer::RAYCAST }))
 	{

@@ -29,7 +29,7 @@ void SceneOne::Start()
 	sphere->Initialize(RigidBody::DYNAMIC, BaseColliderShape::SPHERE);
 	sphere->mRigidBody.SetMass(10);
 	sphere->name = "Sphere";
-	sphere->mRigidBody.SetGravityState(false);
+	sphere->mRigidBody.mRotationConstraints = RigidBody::AxisConstraints(true, true, true);
 
 	//sphere->layer = (int)Layer::Entity_Layer::RAYCAST;
 	sphere->mColliderShape->AsSphere()->SetRadius(2);
