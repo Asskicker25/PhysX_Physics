@@ -14,9 +14,11 @@ Player::Player()
 	transform.SetPosition(glm::vec3(0, 2, 0));
 	transform.SetRotation(glm::vec3(0, 0, 0));
 	transform.SetScale(glm::vec3(1, 2, 1));
-	Initialize(RigidBody::DYNAMIC, BaseColliderShape::CAPSULE);
+	InitializePhysics(RigidBody::DYNAMIC, BaseColliderShape::CAPSULE);
 	mRigidBody.mRotationConstraints = RigidBody::AxisConstraints(true, true, true);
-	mRigidBody.mPositionConstraints = RigidBody::AxisConstraints(true, false, true);
+	mColliderShape->AsCapsule()->SetHeight(10);
+	mColliderShape->AsCapsule()->SetRadius(2);
+	//mRigidBody.mPositionConstraints = RigidBody::AxisConstraints(true, false, true);
 	//mColliderShape->AsCapsule()->mHeight = 4;
 
 	mColliderShape->SetTriggerState(false);
@@ -25,13 +27,13 @@ Player::Player()
 
 void Player::Update(float deltaTime)
 {
-	return;
 	RayHitInfo info;
 	if (Raycast(transform.position, transform.GetUp(), 10, info, { (int)Layer::Entity_Layer::RAYCAST }))
 	{
 		printf("Sphere Hit At : %.1f, %.1f, %.1f \n ", info.mPoint.x, info.mPoint.y, info.mPoint.z);
 	}
 
+	return;
 	mMoveDir.x = InputManager::GetInstance().GetAxisX();
 	mMoveDir.z = InputManager::GetInstance().GetAxisY();
 

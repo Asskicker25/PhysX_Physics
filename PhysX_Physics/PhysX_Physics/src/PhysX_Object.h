@@ -17,7 +17,7 @@ class PhysX_Object : public Model
 {
 public:
 
-	void Initialize(RigidBody::ePhysicsState physicsState = RigidBody::STATIC, BaseColliderShape::eColliderShape colliderShape = BaseColliderShape::SPHERE);
+	void InitializePhysics(RigidBody::ePhysicsState physicsState = RigidBody::STATIC, BaseColliderShape::eColliderShape colliderShape = BaseColliderShape::SPHERE);
 	
 	virtual void Render() override;
 	virtual void OnPropertyDraw() override;

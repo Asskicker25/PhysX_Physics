@@ -26,7 +26,7 @@ void SceneOne::Start()
 	sphere->LoadModel("res/Models/DefaultSphere.fbx");
 	sphere->transform.SetPosition(glm::vec3(0.5f, 10, 0));
 	sphere->transform.SetScale(glm::vec3(0.5f));
-	sphere->Initialize(RigidBody::DYNAMIC, BaseColliderShape::SPHERE);
+	sphere->InitializePhysics(RigidBody::DYNAMIC, BaseColliderShape::SPHERE);
 	sphere->mRigidBody.SetMass(10);
 	sphere->name = "Sphere";
 	sphere->mRigidBody.mRotationConstraints = RigidBody::AxisConstraints(true, true, true);
@@ -45,7 +45,7 @@ void SceneOne::Start()
 	PhysX_Object* terrain = new PhysX_Object();
 	terrain->OnModelLoaded = [this](Model* self)
 		{
-			((PhysX_Object*)self)->Initialize(RigidBody::STATIC, BaseColliderShape::MESH);
+			((PhysX_Object*)self)->InitializePhysics(RigidBody::STATIC, BaseColliderShape::MESH);
 		};
 	terrain->LoadModelAsync("Assets/Terrain.ply");
 	terrain->transform.SetPosition(glm::vec3(30.0f, -14.0f, -9));

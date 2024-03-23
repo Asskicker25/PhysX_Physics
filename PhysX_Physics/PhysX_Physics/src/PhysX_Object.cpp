@@ -10,7 +10,7 @@
 
 
 
-void PhysX_Object::Initialize(RigidBody::ePhysicsState physicsState, BaseColliderShape::eColliderShape colliderShape)
+void PhysX_Object::InitializePhysics(RigidBody::ePhysicsState physicsState, BaseColliderShape::eColliderShape colliderShape)
 {
 
 	UpdateColliderShape(colliderShape);
@@ -32,7 +32,7 @@ void PhysX_Object::Render()
 void PhysX_Object::InitializeRigidActor()
 {
 	//Return if no change in state
-	PxTransform pxTranform(GLMVec3(transform.position), GLMQuat(mColliderShape->GetRotation()));
+	PxTransform pxTranform(GLMVec3(mColliderShape->GetPosition()), GLMQuat(mColliderShape->GetRotation()));
 
 	if (mRigidBody.mPhysicsState == RigidBody::STATIC)
 	{

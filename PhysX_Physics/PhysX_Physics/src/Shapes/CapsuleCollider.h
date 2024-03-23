@@ -5,8 +5,7 @@
 class CapsuleCollider : public BaseColliderShape
 {
 public:
-	float mHeight = 1.0f;
-	float mRadius = 1.0f;
+
 
 	glm::vec3 mRotationOffset = glm::vec3(0, 0, 90);
 
@@ -18,11 +17,17 @@ public:
 	void DrawShape() override;
 	glm::vec3 GetRotationOffset() override;
 	glm::quat GetRotation() override;
+	
+	void SetRadius(float radius);
+	void SetHeight(float height);
 
 	PxGeometry* GetGeometry() override;
 
 
 	virtual void DrawShapeProperty();
 
+private:
+	float mHeight = 1.0f;
+	float mRadius = 1.0f;
 };
 

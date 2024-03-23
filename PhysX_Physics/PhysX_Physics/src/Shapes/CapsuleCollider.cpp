@@ -33,10 +33,10 @@ void CapsuleCollider::UpdateGeometry(const PxGeometry& geometry)
 
 void CapsuleCollider::DrawShape()
 {
-	Renderer::GetInstance().DrawCube(mModelTransform->position, mModelTransform->rotation, glm::vec3(mRadius, mHeight * 0.5f, mRadius), PhysX_Engine::gColliderColor, false);
+	Renderer::GetInstance().DrawCube(mModelTransform->position + mPositionOffset, mModelTransform->rotation, glm::vec3(mRadius, mHeight * 0.5f, mRadius), PhysX_Engine::gColliderColor, false);
 	
-	glm::vec3 upCenter = mModelTransform->position + mModelTransform->GetUp() * mHeight * 0.5f;
-	glm::vec3 downCenter = mModelTransform->position - mModelTransform->GetUp() * mHeight * 0.5f;
+	glm::vec3 upCenter = (mModelTransform->position + mPositionOffset) + mModelTransform->GetUp() * mHeight * 0.5f;
+	glm::vec3 downCenter = (mModelTransform->position + mPositionOffset) - mModelTransform->GetUp() * mHeight * 0.5f;
 	Renderer::GetInstance().DrawSphere(upCenter, mRadius, PhysX_Engine::gColliderColor);
 	Renderer::GetInstance().DrawSphere(downCenter, mRadius, PhysX_Engine::gColliderColor);
 }
@@ -50,6 +50,18 @@ glm::quat CapsuleCollider::GetRotation()
 {
 	glm::vec3 eulerAnglesRadians = glm::radians(mModelTransform->rotation + mRotationOffset);
 	return  glm::quat(eulerAnglesRadians);
+}
+
+void CapsuleCollider::SetRadius(float radius)
+{
+	mRadius = radius;
+	mCapsuleGeometry->radius = radius;
+}
+
+void CapsuleCollider::SetHeight(float height)
+{
+	mHeight = height;
+	mCapsuleGeometry->halfHeight = mHeight * 0.5f;
 }
 
 void CapsuleCollider::DrawShapeProperty()

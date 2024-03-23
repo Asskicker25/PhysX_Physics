@@ -1,5 +1,5 @@
 #pragma once
-#include <PxPhysicsAPI.h>
+#include <PhysX/PxPhysicsAPI.h>
 #include <Graphics/Mesh/Model.h>
 #include <Graphics/Renderer.h>
 
@@ -41,8 +41,12 @@ public:
 	virtual void UpdateGeometry(const PxGeometry& geometry) = 0;
 	virtual void DrawShape();
 	virtual void DrawShapeProperty() {};
+	virtual glm::vec3 GetPosition();
 	virtual glm::quat GetRotation();
+	virtual glm::vec3 GetPositionOffset();
 	virtual glm::vec3 GetRotationOffset();
+	virtual void SetPositionOffset(glm::vec3 offset);
+
 	void DrawProperty();
 	void SetTriggerState(bool isTrigger = true);
 
@@ -51,4 +55,8 @@ protected:
 	PxBounds3 mModelAABB;
 	PhysX_Object* mPhyObj = nullptr;
 	Transform* mModelTransform = nullptr;
+
+	float mColumnWidth = 150;
+	glm::vec3 mPositionOffset = glm::vec3(0);
+
 };

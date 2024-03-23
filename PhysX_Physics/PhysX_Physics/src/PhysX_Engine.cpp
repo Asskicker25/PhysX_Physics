@@ -162,7 +162,7 @@ void PhysX_Engine::UpdateRender()
 
 		if (phyObj->mRigidBody.mPhysicsState == RigidBody::KINEMATIC)
 		{
-			((PxRigidDynamic*)actor)->setKinematicTarget(PxTransform(GLMVec3(phyObj->transform.position), GLMQuat(phyObj->mColliderShape->GetRotation())));
+			((PxRigidDynamic*)actor)->setKinematicTarget(PxTransform(GLMVec3(phyObj->mColliderShape->GetPosition()), GLMQuat(phyObj->mColliderShape->GetRotation())));
 			continue;
 		}
 
@@ -238,10 +238,10 @@ void PhysX_Engine::UpdateRender()
 		}
 
 
-		phyObj->transform.SetPosition(actorPos);
+		phyObj->transform.SetPosition(actorPos - phyObj->mColliderShape->GetPositionOffset());
 		phyObj->transform.SetRotation(rotation);
 
-		((PxRigidDynamic*)actor)->setGlobalPose(PxTransform(GLMVec3(phyObj->transform.position), GLMQuat(phyObj->mColliderShape->GetRotation())));
+		((PxRigidDynamic*)actor)->setGlobalPose(PxTransform(GLMVec3(phyObj->mColliderShape->GetPosition()), GLMQuat(phyObj->mColliderShape->GetRotation())));
 
 	}
 

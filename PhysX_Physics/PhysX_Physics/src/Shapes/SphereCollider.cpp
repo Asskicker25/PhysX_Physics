@@ -2,6 +2,8 @@
 #include "../PhysX_Engine.h"
 #include "../PhysX_Object.h"
 
+#include "../GLMToPhysX.h"
+
 #include <Graphics/Panels/ImguiDrawUtils.h>
 
 void SphereCollider::InitializeGeometry(PhysX_Object* phyObj)
@@ -29,7 +31,7 @@ void SphereCollider::UpdateGeometry(const PxGeometry& geometry)
 
 void SphereCollider::DrawShape()
 {
-	Renderer::GetInstance().DrawSphere(mModelTransform->position, mRadius, PhysX_Engine::GetInstance().gColliderColor);
+	Renderer::GetInstance().DrawSphere(mModelTransform->position + mPositionOffset, mRadius, PhysX_Engine::GetInstance().gColliderColor);
 }
 
 

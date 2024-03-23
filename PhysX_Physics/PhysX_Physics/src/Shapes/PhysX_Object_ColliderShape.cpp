@@ -68,14 +68,29 @@ void BaseColliderShape::DrawShape()
 	Renderer::GetInstance().DrawAABB(aabb, PhysX_Engine::gColliderColor, false);
 }
 
+glm::vec3 BaseColliderShape::GetPosition()
+{
+	return mModelTransform->position + mPositionOffset;
+}
+
 glm::quat BaseColliderShape::GetRotation()
 {
 	return mModelTransform->quaternionRotation;
 }
 
+glm::vec3 BaseColliderShape::GetPositionOffset()
+{
+	return mPositionOffset;
+}
+
 glm::vec3 BaseColliderShape::GetRotationOffset()
 {
 	return glm::vec3(0);
+}
+
+void BaseColliderShape::SetPositionOffset(glm::vec3 offset)
+{
+	mPositionOffset = offset;
 }
 
 void BaseColliderShape::DrawProperty()
@@ -88,6 +103,10 @@ void BaseColliderShape::DrawProperty()
 	if (ImGuiUtils::DrawBool("IsTrigger", mIsTrigger))
 	{
 		SetTriggerState(mIsTrigger);
+	}
+
+	if (ImGuiUtils::DrawVector3ImGui("Offset", mPositionOffset, 0, mColumnWidth))
+	{
 	}
 
 	DrawShapeProperty();
