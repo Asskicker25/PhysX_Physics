@@ -4,7 +4,7 @@
 
 #include "../GLMToPhysX.h"
 
-#include <Graphics/Panels/ImguiDrawUtils.h>
+#include <Panels/ImguiDrawUtils.h>
 
 void SphereCollider::InitializeGeometry(PhysX_Object* phyObj)
 {

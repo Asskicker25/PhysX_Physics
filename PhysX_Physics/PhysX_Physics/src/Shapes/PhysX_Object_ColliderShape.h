@@ -1,7 +1,7 @@
 #pragma once
 #include <PhysX/PxPhysicsAPI.h>
-#include <Graphics/Mesh/Model.h>
-#include <Graphics/Renderer.h>
+#include <Mesh/Model.h>
+#include <Renderer.h>
 
 using namespace physx;
 

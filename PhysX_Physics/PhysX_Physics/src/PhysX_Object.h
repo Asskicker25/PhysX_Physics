@@ -1,5 +1,5 @@
 #pragma once
-#include <Graphics/Mesh/Model.h>
+#include <Mesh/Model.h>
 #include <PhysX/PxPhysicsAPI.h>
 
 #include "PhysX_Object_RigidBody.h"

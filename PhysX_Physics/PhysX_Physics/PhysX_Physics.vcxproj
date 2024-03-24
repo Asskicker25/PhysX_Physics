@@ -102,11 +102,11 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(ProjectDir)Dependencies/include/PhysX;$(ProjectDir)Dependencies/include;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)Dependencies/include/PhysX;$(ProjectDir)Dependencies/include/Graphics;$(ProjectDir)Dependencies/include;$(IncludePath)</IncludePath>
     <LibraryPath>$(ProjectDir)Dependencies/lib/PhysX/$(Configuration);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(ProjectDir)Dependencies/include/PhysX;$(ProjectDir)Dependencies/include;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)Dependencies/include/PhysX;$(ProjectDir)Dependencies/include/Graphics;$(ProjectDir)Dependencies/include;$(IncludePath)</IncludePath>
     <LibraryPath>$(ProjectDir)Dependencies/lib/PhysX/$(Configuration);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">

@@ -10,7 +10,7 @@
 #include "../GLMToPhysX.h"
 #include "../ShapeUtils.h"
 
-#include <Graphics/Panels/ImguiDrawUtils.h>
+#include <Panels/ImguiDrawUtils.h>
 
 SphereCollider* BaseColliderShape::AsSphere()
 {

@@ -2,7 +2,7 @@
 #include "../GLMToPhysX.h"
 #include "../PhysX_Engine.h"
 
-#include <Graphics/Panels/ImguiDrawUtils.h>
+#include <Panels/ImguiDrawUtils.h>
 
 void CapsuleCollider::InitializeGeometry(PhysX_Object* phyObj)
 {

@@ -1,6 +1,6 @@
 #pragma once
 #include <PxPhysicsAPI.h>
-#include <Graphics/Mesh/Model.h>
+#include <Mesh/Model.h>
 
 using namespace physx;
 

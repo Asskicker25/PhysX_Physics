@@ -1,7 +1,7 @@
 #include "PhysX_Object_RigidBody.h"
 #include "PhysX_Object.h"
 
-#include <Graphics/Panels/ImguiDrawUtils.h>
+#include <Panels/ImguiDrawUtils.h>
 
 
 void RigidBody::Initialize(PhysX_Object* phyObj)
