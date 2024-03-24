@@ -10,14 +10,15 @@
 Player::Player()
 {
 	name = "Player";
-	LoadModel("res/Models/DefaultCube.fbx");
+	LoadModel("Assets/Player.fbx");
 	transform.SetPosition(glm::vec3(0, 2, 0));
 	transform.SetRotation(glm::vec3(0, 0, 0));
-	transform.SetScale(glm::vec3(1, 2, 1));
+	transform.SetScale(glm::vec3(0.05f));
 	InitializePhysics(RigidBody::DYNAMIC, BaseColliderShape::CAPSULE);
 	//mRigidBody.mRotationConstraints = RigidBody::AxisConstraints(true, true, true);
-	mColliderShape->AsCapsule()->SetHeight(10);
-	mColliderShape->AsCapsule()->SetRadius(2);
+	mColliderShape->AsCapsule()->SetHeight(7);
+	mColliderShape->AsCapsule()->SetRadius(1.5);
+	mColliderShape->mPivotOffset.y = 5;
 	//mRigidBody.mPositionConstraints = RigidBody::AxisConstraints(true, false, true);
 	//mColliderShape->AsCapsule()->mHeight = 4;
 

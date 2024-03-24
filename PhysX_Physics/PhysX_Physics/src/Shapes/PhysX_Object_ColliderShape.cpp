@@ -49,6 +49,9 @@ void BaseColliderShape::InitializeGeometry(PhysX_Object* phyObj)
 	mModelAABB.maximum.x *= phyObj->transform.scale.x;
 	mModelAABB.maximum.y *= phyObj->transform.scale.y;
 	mModelAABB.maximum.z *= phyObj->transform.scale.z;
+
+	/*PxVec3 center = (mModelAABB.minimum + mModelAABB.maximum) * 0.5f;
+	mPivotOffset = PxVec3ToGLM(center) - mModelTransform->position;*/
 }
 
 void BaseColliderShape::OnAddedToScene()
@@ -70,7 +73,7 @@ void BaseColliderShape::DrawShape()
 
 PxTransform BaseColliderShape::GetRelativePos()
 {
-	return PxTransform(PxVec3(0,0,0) ,PxQuat(0,0,0,1));
+	return PxTransform(GLMVec3(mPivotOffset), PxQuat(0, 0, 0, 1));
 }
 
 glm::vec3 BaseColliderShape::GetPosition()

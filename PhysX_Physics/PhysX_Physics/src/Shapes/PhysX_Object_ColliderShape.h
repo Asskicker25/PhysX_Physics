@@ -25,9 +25,12 @@ public:
 	};
 
 	bool mIsTrigger = false;
+
 	eColliderShape mShape = eColliderShape::SPHERE;
 
 	PxShape* mColliderShape = nullptr;
+
+	glm::vec3 mPivotOffset = glm::vec3(0);
 
 	SphereCollider* AsSphere();
 	BoxCollider* AsBox();

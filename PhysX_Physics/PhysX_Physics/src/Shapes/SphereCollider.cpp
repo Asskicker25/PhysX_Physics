@@ -31,7 +31,7 @@ void SphereCollider::UpdateGeometry(const PxGeometry& geometry)
 
 void SphereCollider::DrawShape()
 {
-	Renderer::GetInstance().DrawSphere(mModelTransform->position + mPositionOffset, mRadius, PhysX_Engine::GetInstance().gColliderColor);
+	Renderer::GetInstance().DrawSphere(mModelTransform->position + mPositionOffset + mPivotOffset, mRadius, PhysX_Engine::GetInstance().gColliderColor);
 }
 
 

@@ -33,17 +33,17 @@ void CapsuleCollider::UpdateGeometry(const PxGeometry& geometry)
 
 void CapsuleCollider::DrawShape()
 {
-	Renderer::GetInstance().DrawCube(mModelTransform->position + mPositionOffset, mModelTransform->rotation, glm::vec3(mRadius, mHeight * 0.5f, mRadius), PhysX_Engine::gColliderColor, false);
+	Renderer::GetInstance().DrawCube(mModelTransform->position + mPositionOffset + mPivotOffset, mModelTransform->rotation, glm::vec3(mRadius, mHeight * 0.5f, mRadius), PhysX_Engine::gColliderColor, false);
 	
-	glm::vec3 upCenter = (mModelTransform->position + mPositionOffset) + mModelTransform->GetUp() * mHeight * 0.5f;
-	glm::vec3 downCenter = (mModelTransform->position + mPositionOffset) - mModelTransform->GetUp() * mHeight * 0.5f;
+	glm::vec3 upCenter = (mModelTransform->position + mPositionOffset + mPivotOffset) + mModelTransform->GetUp() * mHeight * 0.5f;
+	glm::vec3 downCenter = (mModelTransform->position + mPositionOffset + mPivotOffset) - mModelTransform->GetUp() * mHeight * 0.5f;
 	Renderer::GetInstance().DrawSphere(upCenter, mRadius, PhysX_Engine::gColliderColor);
 	Renderer::GetInstance().DrawSphere(downCenter, mRadius, PhysX_Engine::gColliderColor);
 }
 
 PxTransform CapsuleCollider::GetRelativePos()
 {
-	return PxTransform (PxQuat(PxHalfPi, PxVec3(0, 0, 1)));
+	return PxTransform (GLMVec3(mPivotOffset), PxQuat(PxHalfPi, PxVec3(0, 0, 1)));
 }
 
 glm::vec3 CapsuleCollider::GetRotationOffset()
