@@ -7,7 +7,7 @@ class CapsuleCollider : public BaseColliderShape
 public:
 
 
-	glm::vec3 mRotationOffset = glm::vec3(0, 0, 90);
+	glm::vec3 mRotationOffset = glm::vec3(0, 0, 0);
 
 	PxCapsuleGeometry* mCapsuleGeometry = nullptr;
 
@@ -15,6 +15,7 @@ public:
 	void InitializeGeometry(PhysX_Object* phyObj) override;
 	void UpdateGeometry(const PxGeometry& geometry) override;
 	void DrawShape() override;
+	PxTransform GetRelativePos() override;
 	glm::vec3 GetRotationOffset() override;
 	glm::quat GetRotation() override;
 	

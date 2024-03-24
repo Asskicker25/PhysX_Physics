@@ -50,6 +50,7 @@ void PhysX_Object::InitializeRigidActor()
 	}
 
 	PxShape* shape = PhysX_Engine::gPhysics->createShape(*mColliderShape->GetGeometry(), *PhysX_Engine::gDefaultMaterial);
+	shape->setLocalPose(mColliderShape->GetRelativePos());
 	mRigidActor->attachShape(*shape);
 	mColliderShape->mColliderShape = &(*shape);
 

@@ -68,6 +68,11 @@ void BaseColliderShape::DrawShape()
 	Renderer::GetInstance().DrawAABB(aabb, PhysX_Engine::gColliderColor, false);
 }
 
+PxTransform BaseColliderShape::GetRelativePos()
+{
+	return PxTransform(PxVec3(0,0,0) ,PxQuat(0,0,0,1));
+}
+
 glm::vec3 BaseColliderShape::GetPosition()
 {
 	return mModelTransform->position + mPositionOffset;

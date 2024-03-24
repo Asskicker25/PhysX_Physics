@@ -41,6 +41,11 @@ void CapsuleCollider::DrawShape()
 	Renderer::GetInstance().DrawSphere(downCenter, mRadius, PhysX_Engine::gColliderColor);
 }
 
+PxTransform CapsuleCollider::GetRelativePos()
+{
+	return PxTransform (PxQuat(PxHalfPi, PxVec3(0, 0, 1)));
+}
+
 glm::vec3 CapsuleCollider::GetRotationOffset()
 {
 	return mRotationOffset;

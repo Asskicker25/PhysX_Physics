@@ -41,6 +41,7 @@ public:
 	virtual void UpdateGeometry(const PxGeometry& geometry) = 0;
 	virtual void DrawShape();
 	virtual void DrawShapeProperty() {};
+	virtual PxTransform GetRelativePos();
 	virtual glm::vec3 GetPosition();
 	virtual glm::quat GetRotation();
 	virtual glm::vec3 GetPositionOffset();
