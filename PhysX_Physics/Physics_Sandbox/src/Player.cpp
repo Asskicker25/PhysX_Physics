@@ -15,7 +15,7 @@ Player::Player()
 	transform.SetRotation(glm::vec3(0, 0, 0));
 	transform.SetScale(glm::vec3(1, 2, 1));
 	InitializePhysics(RigidBody::DYNAMIC, BaseColliderShape::CAPSULE);
-	mRigidBody.mRotationConstraints = RigidBody::AxisConstraints(true, true, true);
+	//mRigidBody.mRotationConstraints = RigidBody::AxisConstraints(true, true, true);
 	mColliderShape->AsCapsule()->SetHeight(10);
 	mColliderShape->AsCapsule()->SetRadius(2);
 	//mRigidBody.mPositionConstraints = RigidBody::AxisConstraints(true, false, true);

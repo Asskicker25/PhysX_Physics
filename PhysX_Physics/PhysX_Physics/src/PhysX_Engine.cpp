@@ -176,7 +176,7 @@ void PhysX_Engine::UpdateRender()
 
 		for (PxU32 index = 0; index < nbShapes; index++)
 		{
-			const PxMat44 shapePose(PxShapeExt::getGlobalPose(*shapes[index], *actor));
+			const PxMat44 shapePose(actor->getGlobalPose());
 			const PxGeometry& geom = shapes[index]->getGeometry();
 
 			actorPos += PxVec3ToGLM(shapePose.getPosition());
