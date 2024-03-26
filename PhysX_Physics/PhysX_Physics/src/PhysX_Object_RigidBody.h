@@ -2,6 +2,7 @@
 
 class PhysX_Object;
 
+#include "PhysicsMaterial.h"
 
 class RigidBody
 {
@@ -36,13 +37,12 @@ public:
 	void SetGravityState(bool enabled);
 
 	bool mUseGravity = true;
-
-	AxisConstraints mPositionConstraints;
-	AxisConstraints mRotationConstraints;
-
 	float mMass = 1;
 
 	ePhysicsState mPhysicsState = ePhysicsState::NONE;
-
 	PhysX_Object* mPhyObj = nullptr;
+	PhysicsMaterial* mMaterial = nullptr;
+	AxisConstraints mPositionConstraints;
+	AxisConstraints mRotationConstraints;
+
 };

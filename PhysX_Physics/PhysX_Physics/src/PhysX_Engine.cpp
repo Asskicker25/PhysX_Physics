@@ -140,6 +140,39 @@ void PhysX_Engine::Cleanup()
 	std::cout << "Physics Cleanup" << std::endl;
 }
 
+void PhysX_Engine::AddPhysicsMaterial(PhysicsMaterial* material)
+{
+
+	PxMaterial* pxMaterial = gPhysics->createMaterial(
+		material->mStaticFriction,
+		material->mDynamicFriction,
+		material->mBounciness
+	);
+
+	pxMaterial->setFrictionCombineMode(LocalEnum(material->mFrictionCombineMode));
+	pxMaterial->setRestitutionCombineMode(LocalEnum(material->mBounceCombineMode));
+
+	mListOfPhysicsMaterial[material] = pxMaterial;
+}
+
+PxMaterial* PhysX_Engine::GetMaterial(PhysicsMaterial* material)
+{
+	if (material == nullptr)
+	{
+		return gDefaultMaterial;
+	}
+
+	std::unordered_map<PhysicsMaterial*, PxMaterial*>::iterator it = mListOfPhysicsMaterial.find(material);
+
+	if (it == mListOfPhysicsMaterial.end())
+	{
+		std::cerr << "Material was not added to Physics Engine!!" << std::endl;
+		return gDefaultMaterial;
+	}
+
+	return it->second;
+}
+
 void PhysX_Engine::UpdateRender()
 {
 	PxU32 nbActors = gScene->getNbActors(PxActorTypeFlag::eRIGID_DYNAMIC | PxActorTypeFlag::eRIGID_STATIC);

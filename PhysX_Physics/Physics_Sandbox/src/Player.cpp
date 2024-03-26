@@ -4,11 +4,17 @@
 #include <Shapes/CapsuleCollider.h>
 
 #include <PhysicsUtils.h>
+#include <PhysX_Engine.h>
 
 #include "AppSettings.h"
 
 Player::Player()
 {
+	mRigidBody.mMaterial = new PhysicsMaterial();
+	mRigidBody.mMaterial->mBounciness = 0.0f;
+
+	PhysX_Engine::GetInstance().AddPhysicsMaterial(mRigidBody.mMaterial);
+
 	name = "Player";
 	LoadModel("Assets/Player.fbx");
 	transform.SetPosition(glm::vec3(0, 2, 0));

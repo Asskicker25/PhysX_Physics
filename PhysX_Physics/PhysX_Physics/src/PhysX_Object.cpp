@@ -49,7 +49,9 @@ void PhysX_Object::InitializeRigidActor()
 		UpdateKinematic(true);
 	}
 
-	PxShape* shape = PhysX_Engine::gPhysics->createShape(*mColliderShape->GetGeometry(), *PhysX_Engine::gDefaultMaterial);
+	PxShape* shape = PhysX_Engine::gPhysics->createShape(*mColliderShape->GetGeometry(), 
+		*(PhysX_Engine::GetInstance().GetMaterial(mRigidBody.mMaterial)));
+
 	shape->setLocalPose(mColliderShape->GetRelativePos());
 	mRigidActor->attachShape(*shape);
 	mColliderShape->mColliderShape = &(*shape);

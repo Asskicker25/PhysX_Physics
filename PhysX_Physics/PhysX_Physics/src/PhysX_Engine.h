@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <vector>
+#include <unordered_map>
 
 #include <PxPhysicsAPI.h>
 #include <glm/glm.hpp>
@@ -37,6 +38,10 @@ public:
 	void OnApplicationStart();
 
 	void AddPhysicsObject(PhysX_Object* physObj);
+	void AddPhysicsMaterial(PhysicsMaterial* material);
+
+	PxMaterial* GetMaterial(PhysicsMaterial* material);
+
 
 	static PxDefaultAllocator		gAllocator;
 	static PxDefaultErrorCallback	gErrorCallback;
@@ -60,6 +65,7 @@ public:
 	bool mApplicationStarted = false;
 
 	std::vector<PhysX_Object*> mListOfPhysicObjects;
+	std::unordered_map<PhysicsMaterial*, PxMaterial*> mListOfPhysicsMaterial;
 
 private:
 
