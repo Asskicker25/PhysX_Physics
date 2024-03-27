@@ -23,6 +23,7 @@ void EditorLayout::InitializeLayout()
 	sceneViewportPanel->mouseHeld = &application->mouseHeld;
 
 	gameViewportPanel->sceneBuffer = application->gameSceneFrameBuffer;
+	gameViewportPanel->mApplication = application;
 	//gameViewportPanel->sceneBuffer = application->postProcessing->chromaticAberration.frameBuffer;
 
 	gameViewportPanel->mResolution = ImVec2(application->gameResolutionWidth, application->gameResolutionHeight);
@@ -74,6 +75,16 @@ void EditorLayout::SetApplicationPlayState(bool state)
 {
 	application->applicationPlay = state;
 	application->OnPlayStateChanged(state);
+
+	if (state)
+	{
+		application->ChangeCursorState(application->mCurrentCursorState);
+	}
+	else
+	{
+		application->ChangeCursorState(eCursorState::NORMAL);
+	}
+
 }
 
 void EditorLayout::SetHoveredPanel(bool viewport)

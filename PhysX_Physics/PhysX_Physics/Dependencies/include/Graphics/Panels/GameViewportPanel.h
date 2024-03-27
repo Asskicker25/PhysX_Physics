@@ -3,6 +3,8 @@
 #include "BasePanel.h"
 #include "../Buffer/FrameBuffer.h"
 
+class ApplicationWindow;
+
 class GameViewportPanel : public BasePanel
 {
 
@@ -15,6 +17,8 @@ public:
 	ImVec2 mViewportSize;
 	ImVec2 mResolution;
 	ImVec4 windowColor = ImVec4(0.1f, 0.1f, 0.1f, 1.0f);
+
+	ApplicationWindow* mApplication = nullptr;
 
 };
 

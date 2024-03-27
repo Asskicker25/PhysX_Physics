@@ -13,12 +13,11 @@ private:
 	class Pimpl;
 	Pimpl* pimpl;
 
-	float mMouseX = 0;
-	float mMouseY = 0;
 	float mAxisX = 0;
 	float mAxisY = 0;
+	float mSmoothMouseInputX = 0;
+	float mSmoothMouseInputY = 0;
 
-	glm::vec2 mMouseDelta = glm::vec2(0);
 
 	bool mLeftHeld = false;
 	bool mRightHeld = false;
@@ -43,17 +42,20 @@ public:
 	void OnMouseButtonPressed(const int& key);
 	void OnMouseButtonReleased(const int& key);
 
+	void SetMouseInput(float smoothInputX, float smoothInputY);
 
-	float GetMouseX();
-	float GetMouseY();
+	float GetMouseAxisX();
+	float GetMouseAxisY();
 	float GetAxisX();
 	float GetAxisY();
-	glm::vec2 GetMouseDelta();
-
-	void SetMousePos(float x, float y);
-	void SetMouseDelta(glm::vec2 delta);
 
 	void Update();
 	void Clear();
+
+	glm::vec2 mMouseDelta = glm::vec2(0);
+	glm::vec2 mCurrentMousePos = glm::vec2(0);
+	glm::vec2 mLastMousePos = glm::vec2(0);
+
+
 };
 

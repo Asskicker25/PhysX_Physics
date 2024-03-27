@@ -10,6 +10,7 @@ public:
 	bool isOpen = true;
 	bool isEnabled = true;
 	bool isHovered = false;
+	bool isClicked = false;
 	bool* isPlaying = nullptr;
 	
 	BasePanel();

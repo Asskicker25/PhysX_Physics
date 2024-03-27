@@ -128,14 +128,20 @@ void InputManager::OnMouseButtonReleased(const int& key)
 	}
 }
 
-float InputManager::GetMouseX()
+void InputManager::SetMouseInput(float smoothInputX, float smoothInputY)
 {
-	return mMouseX;
+	mSmoothMouseInputX = smoothInputX;
+	mSmoothMouseInputY = smoothInputY;
 }
 
-float InputManager::GetMouseY()
+float InputManager::GetMouseAxisX()
 {
-	return mMouseY;
+	return mSmoothMouseInputX;
+}
+
+float InputManager::GetMouseAxisY()
+{
+	return mSmoothMouseInputY;
 }
 
 float InputManager::GetAxisX()
@@ -146,22 +152,6 @@ float InputManager::GetAxisX()
 float InputManager::GetAxisY()
 {
 	return mAxisY;
-}
-
-glm::vec2 InputManager::GetMouseDelta()
-{
-	return mMouseDelta;
-}
-
-void InputManager::SetMousePos(float x, float y)
-{
-	mMouseX = x;
-	mMouseY = y;
-}
-
-void InputManager::SetMouseDelta(glm::vec2 delta)
-{
-	mMouseDelta = delta;
 }
 
 void InputManager::Update()

@@ -1,4 +1,5 @@
 #include "GameViewportPanel.h"
+#include "../ApplicationWindow.h"
 
 
 void GameViewportPanel::OnRender(float windowSizeX, float windowSizeY)
@@ -23,6 +24,15 @@ void GameViewportPanel::OnRender(float windowSizeX, float windowSizeY)
 	ImVec2 viewportSize = ImGui::GetContentRegionAvail();
 
 	isHovered = ImGui::IsWindowHovered();
+    isClicked = ImGui::IsMouseClicked(ImGuiMouseButton_Left);
+
+    if (isHovered && isClicked)
+    {
+        if (mApplication->mEditorCursorState != mApplication->mCurrentCursorState)
+        {
+            mApplication->ChangeCursorState(mApplication->mCurrentCursorState);
+        }
+    }
 
     float cameraAspectRatio = mResolution.x / mResolution.y;
     float viewportAspectRatio = viewportSize.x / viewportSize.y;

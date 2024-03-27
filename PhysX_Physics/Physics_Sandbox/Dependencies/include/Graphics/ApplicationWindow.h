@@ -41,7 +41,7 @@
 #include "Mesh/RenderQuad.h"
 #include "Scene/SceneManager.h"
 #include "ParticleSystem/ParticleSystemManager.h"
-
+#include "Cursor.h"
 
 class ApplicationWindow
 {
@@ -68,16 +68,16 @@ public:
 	float gameResolutionWidth{  1280 };
 	float gameResolutionHeight{  720 };
 
+	float mMouseSmoothFactor{ 0.85f };
+	glm::vec2 mMouseDelta = glm::vec2(0);
+	glm::vec2 mMouseSmoothDelta = glm::vec2(0);
+
 	bool mouseHeld{ false };
 	bool mouseCameraMove{ false };
 	bool stopKeyCallback{ false };
 	bool stopMouseCallback{ false };
 	bool applicationPlay{ false };
 	bool imGuiPanelEnable{ true };
-
-	glm::vec2 currentMousePos{ 0 };
-	glm::vec2 lastMousePos{ 0 };
-	glm::vec2 mouseDeltaPos{ 0 };
 
 	glm::mat4 view = glm::mat4(1.0f);
 
@@ -100,7 +100,8 @@ public:
 	UnlitColorShader defInstanceShader;
 	SkyBoxShader skyboxShader;
 
-
+	eCursorState mCurrentCursorState = eCursorState::NORMAL;
+	eCursorState mEditorCursorState = eCursorState::NORMAL;
 
 	Model* skyBox;
 
@@ -117,6 +118,9 @@ public:
 	void InitializeWindow(int windowWidth, int windowHeight);
 	void SetWindowIcon(const std::string& path);
 	void SetBackgroundColor(const glm::vec3& color);
+	void SetCursorState(eCursorState eState);
+	void ChangeCursorState(eCursorState eState);
+
 
 	void MainLoop();
 	virtual void SetUp() = 0;
@@ -128,6 +132,7 @@ public:
 	virtual void KeyCallBack(GLFWwindow* window, int& key, int& scancode, int& action, int& mods) = 0;
 	virtual void MouseButtonCallback(GLFWwindow* window, int& button, int& action, int& mods) = 0;
 
+	void HandleMouseAxis();
 	void MouseHeldCallback(GLFWwindow* window, int& button, int& action, int& mods);
 	void InputCallback(GLFWwindow* window, int& key, int& scancode, int& action, int& mods);
 };

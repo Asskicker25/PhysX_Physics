@@ -191,6 +191,7 @@ void ApplicationWindow::InitializeWindow(int windowWidth, int windowHeight)
 
 void ApplicationWindow::EngineUpdate()
 {
+	HandleMouseAxis();
 	Timer::GetInstance().SetCurrentTime(glfwGetTime());
 
 	/*stopKeyCallback = applicationPlay;
@@ -353,34 +354,63 @@ void ApplicationWindow::SetBackgroundColor(const glm::vec3& color)
 	Renderer::GetInstance().SetBackgroundColor(color);
 }
 
+void ApplicationWindow::SetCursorState(eCursorState eState)
+{
+	mCurrentCursorState = eState;
+	//ChangeCursorState(eState);
+}
+
+void ApplicationWindow::ChangeCursorState(eCursorState eState)
+{
+	mEditorCursorState = eState;
+	if (eState == eCursorState::NORMAL)
+	{
+		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+	}
+	else if (eState == eCursorState::LOCKED)
+	{
+		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	}
+	else if (eState == eCursorState::HIDDEN)
+	{
+		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+	}
+}
+
+
 
 void ApplicationWindow::GetCursorCallback(GLFWwindow* window, double xpos, double ypos)
 {
-	InputManager::GetInstance().SetMousePos(xpos, ypos);
+	//InputManager::GetInstance().SetMousePos(xpos, ypos);
 
-	currentMousePos.x = xpos;
-	currentMousePos.y = ypos;
+	InputManager::GetInstance().mCurrentMousePos.x = xpos;
+	InputManager::GetInstance().mCurrentMousePos.y = ypos;
 
-	mouseDeltaPos = currentMousePos - lastMousePos;
-	mouseDeltaPos.y = -mouseDeltaPos.y;
-	
-	InputManager::GetInstance().SetMouseDelta(mouseDeltaPos);
+	//InputManager::GetInstance().mMouseDelta = InputManager::GetInstance().mCurrentMousePos - InputManager::GetInstance().mLastMousePos;
+	//InputManager::GetInstance().mMouseDelta.y = -InputManager::GetInstance().mMouseDelta.y;
+	//
+	///*int width, height;
+	//glfwGetWindowSize(window, &width, &height);
+	//
+	//if (xpos <= 0)
+	//{
+	//	glfwSetCursorPos(window, width, ypos);
+	//}
+	//else if (xpos >= width - 1)
+	//{
+	//	glfwSetCursorPos(window, 0, ypos);
+	//}*/
+	//
+	//InputManager::GetInstance().mLastMousePos.x = xpos;
+	//InputManager::GetInstance().mLastMousePos.y = ypos;
+	//
+	//double smoothFactor = 1.0 - exp(-mMouseSmoothFactor * Timer::GetInstance().deltaTime);
+	//mMouseSmoothX = mMouseSmoothX * (1.0 - smoothFactor) + InputManager::GetInstance().mMouseDelta.x * smoothFactor;
+	//mMouseSmoothY = mMouseSmoothY * (1.0 - smoothFactor) + InputManager::GetInstance().mMouseDelta.y * smoothFactor;
+	//
+	//InputManager::GetInstance().SetMouseInput(mMouseSmoothX, mMouseSmoothY);
 
-	/*int width, height;
-	glfwGetWindowSize(window, &width, &height);
-
-	if (xpos <= 0)
-	{
-		glfwSetCursorPos(window, width, ypos);
-	}
-	else if (xpos >= width - 1)
-	{
-		glfwSetCursorPos(window, 0, ypos);
-	}*/
-
-	lastMousePos.x = xpos;
-	lastMousePos.y = ypos;
-
+	//printf("MouseAxis : %.1f, %.1f \n", mMouseSmoothX, mMouseSmoothY);
 
 	if (stopMouseCallback) return;
 	if (!mouseHeld) return;
@@ -413,6 +443,8 @@ void ApplicationWindow::MoveMouse()
 	//std::cout << cameraYaw << std::endl;
 
 	//std::cout << "Camera Yaw " << cameraYaw << std::endl;
+
+	glm::vec2 mouseDeltaPos = InputManager::GetInstance().mMouseDelta;
 
 	if (viewportCamera->transform.rotation.z == 180 || viewportCamera->transform.rotation.z == -180)
 	{
@@ -474,6 +506,20 @@ void ApplicationWindow::SetViewportSize(GLFWwindow* window, int width, int heigh
 	gameFinalFrameBuffer->Resize(width, height);*/
 }
 
+void ApplicationWindow::HandleMouseAxis()
+{
+	InputManager::GetInstance().mMouseDelta = InputManager::GetInstance().mCurrentMousePos - InputManager::GetInstance().mLastMousePos;
+	InputManager::GetInstance().mMouseDelta.y = -InputManager::GetInstance().mMouseDelta.y;
+
+	InputManager::GetInstance().mLastMousePos = InputManager::GetInstance().mCurrentMousePos;
+	
+	mMouseSmoothDelta = mMouseSmoothDelta * mMouseSmoothFactor + InputManager::GetInstance().mMouseDelta * (1.0f - mMouseSmoothFactor);
+	InputManager::GetInstance().mLastMousePos = InputManager::GetInstance().mCurrentMousePos;
+	
+	InputManager::GetInstance().SetMouseInput(mMouseSmoothDelta.x, mMouseSmoothDelta.y);
+
+}
+
 void ApplicationWindow::MouseHeldCallback(GLFWwindow* window, int& button, int& action, int& mods)
 {
 	if (stopMouseCallback) return;
@@ -502,6 +548,11 @@ void ApplicationWindow::InputCallback(GLFWwindow* window, int& key, int& scancod
 {
 	if (action == GLFW_PRESS)
 	{
+		if (key == GLFW_KEY_ESCAPE)
+		{
+			ChangeCursorState(eCursorState::NORMAL);
+		}
+
 		InputManager::GetInstance().OnKeyPressed(key);
 	}
 	else if (action == GLFW_RELEASE)
